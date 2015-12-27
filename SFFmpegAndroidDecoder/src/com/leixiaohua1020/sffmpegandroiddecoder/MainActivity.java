@@ -227,12 +227,11 @@ public class MainActivity extends Activity {
 				   			        {
 			        				   	//if(frame < 200)
 			        				   	//writeSDFile(folderurl+"/test.yuv",rets);
-	
-			        			    	int []rgbdatas = null;
-			        			    	rgbdatas = rgb2ARGB(retData,320,240);
+
+			        			    	rgb2ARGB(rgbdata, retData, 320, 240);
 			        			    	if(rgbdata != null)
 			        			    	{
-			        			    		bitmap = Bitmap.createBitmap(rgbdatas, 320, 240,Config.ARGB_8888);
+			        			    		bitmap = Bitmap.createBitmap(rgbdata, 320, 240,Config.ARGB_8888);
 			        			    	}
 				   						
 			        			    	if(bitmap != null)
@@ -305,6 +304,19 @@ public class MainActivity extends Activity {
 			}
 		}
 		return ret;
+	}
+    
+    public static void rgb2ARGB(int argb[], byte[] rgb, int width, int height){
+		int line_len = width*3;
+		int pos = 0;
+		for(int line =0; line < height ; line++)
+		{
+			for(int i=0; i < line_len; i += 3)
+			{
+				argb[pos++] = 0xFF000000|(((int)rgb[line*line_len+i]<<16)&0xFF0000)|
+						(((int)rgb[line*line_len+i+1]<<8)&0xFF00)|(((int)rgb[line*line_len+i+2])&0xFF);
+			}
+		}
 	}
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
