@@ -49,6 +49,7 @@ public class MainActivity extends Activity {
 
 	boolean init = true;
 	boolean recv_run_flag = false;
+	boolean decode_flag = true;
 	String ip_str=null,port_str=null;
 	TcpThread tcphandle;
 	TextView text1;
@@ -63,9 +64,29 @@ public class MainActivity extends Activity {
         final TextView text = (TextView) this.findViewById(R.id.text_label1);
         text1 = (TextView) this.findViewById(R.id.text_info);
         Button startButton = (Button) this.findViewById(R.id.button_start);
-		final EditText urlEdittext_input= (EditText) this.findViewById(R.id.input_url);
+		final Button decodeOnOffBtn = (Button) this.findViewById(R.id.decodeOnOff);
+        final EditText urlEdittext_input= (EditText) this.findViewById(R.id.input_url);
 		final EditText urlEdittext_output= (EditText) this.findViewById(R.id.output_url);
 		images = (ImageView) this.findViewById(R.id.imageView1);
+		
+		decodeOnOffBtn.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				decode_flag = !decode_flag;
+				if(decode_flag)
+				{
+					decodeOnOffBtn.setText("On");
+				}
+				else
+				{
+					decodeOnOffBtn.setText("Off");
+				}
+			}
+			
+			
+		});
 		startButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View arg0){
 
@@ -200,29 +221,31 @@ public class MainActivity extends Activity {
 		        			   byte retData[];
 		        			   frame++;
 		        			   SendMsgText("framerate "+frame);
-		        			   
-		        			    if((retData = decodeOneFrameExt(frame_buf,pos-4)) != null)
-			   			        {
-		        				   	//if(frame < 200)
-		        				   	//writeSDFile(folderurl+"/test.yuv",rets);
+		        			   if(decode_flag)
+		        			   {
+			        			    if((retData = decodeOneFrameExt(frame_buf,pos-4)) != null)
+				   			        {
+			        				   	//if(frame < 200)
+			        				   	//writeSDFile(folderurl+"/test.yuv",rets);
+	
+			        			    	int []rgbdatas = null;
+			        			    	rgbdatas = rgb2ARGB(retData,320,240);
+			        			    	if(rgbdata != null)
+			        			    	{
+			        			    		bitmap = Bitmap.createBitmap(rgbdatas, 320, 240,Config.ARGB_8888);
+			        			    	}
+				   						
+			        			    	if(bitmap != null)
+			        			    	{
+			        			    		Message message = new Message(); 
+					   			        	message.what = 2; 
+					   			        	message.obj = bigImg(bitmap);
+						        			mHandler.sendMessage(message);
+			        			    	}
+				   			        }
+		        			   }
 
-		        			    	int []rgbdatas = null;
-		        			    	rgbdatas = rgb2ARGB(retData,320,240);
-		        			    	if(rgbdata != null)
-		        			    	{
-		        			    		bitmap = Bitmap.createBitmap(rgbdatas, 320, 240,Config.ARGB_8888);
-		        			    	}
-			   						
-		        			    	if(bitmap != null)
-		        			    	{
-		        			    		Message message = new Message(); 
-				   			        	message.what = 2; 
-				   			        	message.obj = bigImg(bitmap);
-					        			mHandler.sendMessage(message);
-		        			    	}
-			   			        }
-
-		        			    pos = 0;
+		        			   pos = 0;
 		        		   }
 		        	   }
 		           }

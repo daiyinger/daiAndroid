@@ -79,4 +79,13 @@
         android:layout_marginBottom="58dp"
         android:src="@drawable/ic_launcher" />
 
+    <Button
+        android:id="@+id/decodeOnOff"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/text_info"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/button_start"
+        android:text="@string/OnOffStr" />
+
 </RelativeLayout>
