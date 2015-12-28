@@ -483,14 +483,9 @@ JNIEXPORT jint JNICALL Java_com_leixiaohua1020_sffmpegandroiddecoder_MainActivit
 	int ret;
 	uint8_t *out_buffer;
 
-	//FILE *fp_yuv;
-	//int frame_cnt;
-	//clock_t time_start, time_finish;
-	//double  time_duration = 0.0;
-
 	char input_str[500]={0};
-	char output_str[500]={0};
-	char info[1000]={0};
+	//char output_str[500]={0};
+	//char info[1000]={0};
 	sprintf(input_str,"%s",(*env)->GetStringUTFChars(env,input_jstr, NULL));
 
 	//FFmpeg av_log() callback
@@ -498,36 +493,24 @@ JNIEXPORT jint JNICALL Java_com_leixiaohua1020_sffmpegandroiddecoder_MainActivit
 
 	av_register_all();
 	avformat_network_init();
-	pFormatCtx = avformat_alloc_context();
 
-	if(avformat_open_input(&pFormatCtx,input_str,NULL,NULL) != 0)
-	{
-		LOGE("Couldn't open input stream.\n");
-		return -1;
-	}
-	if(avformat_find_stream_info(pFormatCtx,NULL) < 0)
-	{
-		LOGE("Couldn't find stream information.\n");
-		return -1;
-	}
-	videoindex=-1;
-	for(i=0; i<pFormatCtx->nb_streams; i++)
-		if(pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO)
-		{
-			videoindex=i;
-			break;
-		}
-	if(videoindex==-1)
-	{
-		LOGE("Couldn't find a video stream.\n");
-		return -1;
-	}
-	pCodecCtx = pFormatCtx->streams[videoindex]->codec;
-	pCodec = avcodec_find_decoder(pCodecCtx->codec_id);
+	pCodec = avcodec_find_decoder(CODEC_ID_H264);
 	if(pCodec == NULL){
 		LOGE("Couldn't find Codec.\n");
 		return -1;
 	}
+
+	pCodecCtx = avcodec_alloc_context3(pCodec);
+
+	//更改pCodecCtx的一些成员变量的值，您应该从解码方得到这些变量值
+	pCodecCtx->time_base.num = 1;	//这两行：一秒钟10帧
+	pCodecCtx->time_base.den = 10;
+	pCodecCtx->bit_rate = 0;		//初始化为0
+	pCodecCtx->frame_number = 1;	//每包一个视频帧
+	pCodecCtx->codec_type = AVMEDIA_TYPE_VIDEO;
+	pCodecCtx->pix_fmt = PIX_FMT_YUV420P;
+	pCodecCtx->width = 320;			//这两行：视频的宽度和高度
+	pCodecCtx->height = 240;
 	if(avcodec_open2(pCodecCtx, pCodec,NULL) < 0){
 		LOGE("Couldn't open codec.\n");
 		return -1;
@@ -543,12 +526,6 @@ JNIEXPORT jint JNICALL Java_com_leixiaohua1020_sffmpegandroiddecoder_MainActivit
 	img_convert_ctx = sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt, 
 		pCodecCtx->width, pCodecCtx->height, AV_PIX_FMT_RGB24, SWS_BICUBIC, NULL, NULL, NULL);
   
-	sprintf(info,   "[Input     ]%s\n", input_str);
-	sprintf(info, "%s[Output    ]%s\n",info,output_str);
-	sprintf(info, "%s[Format    ]%s\n",info, pFormatCtx->iformat->name);
-	sprintf(info, "%s[Codec     ]%s\n",info, pCodecCtx->codec->name);
-	sprintf(info, "%s[Resolution]%dx%d\n",info, pCodecCtx->width,pCodecCtx->height);
-
 	av_init_packet(packet);
 	return 0;
 }

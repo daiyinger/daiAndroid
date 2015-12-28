@@ -30,6 +30,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -47,27 +49,31 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-	boolean init = true;
-	boolean recv_run_flag = false;
-	boolean decode_flag = true;
-	String ip_str=null,port_str=null;
-	TcpThread tcphandle;
-	TextView text1;
-	ImageView images;
-	Bitmap bitmap;
+	static boolean init = true;
+	static boolean recv_run_flag = false;
+	static boolean decode_flag = true;
+	static String ip_str=null,port_str=null;
+	static TcpThread tcphandle;
+	static TextView text1;
+	static ImageView images;
+	static Bitmap bitmap;
+	PowerManager powerManager = null;  
+    WakeLock wakeLock = null; 
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        final TextView text = (TextView) this.findViewById(R.id.text_label1);
+
         text1 = (TextView) this.findViewById(R.id.text_info);
         Button startButton = (Button) this.findViewById(R.id.button_start);
 		final Button decodeOnOffBtn = (Button) this.findViewById(R.id.decodeOnOff);
         final EditText urlEdittext_input= (EditText) this.findViewById(R.id.input_url);
 		final EditText urlEdittext_output= (EditText) this.findViewById(R.id.output_url);
 		images = (ImageView) this.findViewById(R.id.imageView1);
+		
+		powerManager = (PowerManager)this.getSystemService(this.POWER_SERVICE);  
+        wakeLock = this.powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "My Lock");
 		
 		decodeOnOffBtn.setOnClickListener(new OnClickListener(){
 
@@ -96,10 +102,10 @@ public class MainActivity extends Activity {
 		        String inputurl=folderurl+"/"+urltext_input;
 		              
 		        Log.i("inputurl",inputurl);
-		        int res;
+		        //int res;
 		        if(init)
 		        {
-		        	decode(folderurl+"/"+"555.h264");
+		        	decode("");
 			        init = false;
 			            
 		        }
@@ -111,6 +117,19 @@ public class MainActivity extends Activity {
 			}
 		});
     }
+    
+    @Override  
+    protected void onResume() {  
+        super.onResume();  
+        wakeLock.acquire();  
+    }  
+
+    @Override  
+    protected void onPause() {  
+        super.onPause();  
+        wakeLock.release();  
+    }  
+    
     public Handler mHandler=new Handler()  
     {  
         public void handleMessage(Message msg)  
@@ -122,19 +141,29 @@ public class MainActivity extends Activity {
 	            	text1.setText((String)msg.obj);
 	                break; 
 	            case 2: 
+        			writeSDString("bitmap msg rx ok");
 	            	if(msg.obj != null)
+	            	{
 	            		images.setImageBitmap((Bitmap)msg.obj);
+	            	}
+	            	else
+	            	{
+	            		writeSDString("bitmap msg null");
+	            	}
 	                break;
+	            case 3:
+	            	
+	            	break;
 	            default:  
 	                break;            
             }    
-            //super.handleMessage(msg);  
+            super.handleMessage(msg);  
         }  
     };  
-    public void SendMsgText(String str)
+    public void SendMsgText(int id, String str)
     {
     	Message message=new Message(); 
-        message.what=1; 
+        message.what=id; 
         message.obj = str;
         mHandler.sendMessage(message);
     }
@@ -153,7 +182,7 @@ public class MainActivity extends Activity {
 		    	{
 		    		
 		    		socket = new Socket(ip_str,Integer.parseInt(port_str));
-		    		SendMsgText("connect");
+		    		SendMsgText(1,"connect");
 		    	}
 		    	//socket = new Socket("172.27.98.8",10025);//"192.1
 		    	InputStream inr = socket.getInputStream();
@@ -168,13 +197,14 @@ public class MainActivity extends Activity {
 				int info = 0;
 				int frame = 0;
 				//String folderurl=Environment.getExternalStorageDirectory().getPath();
-				
+				writeSDString("tcp thread start!");
 				while(recv_run_flag)
 				{
 		           len = inr.read(recv_buf);
 		           if(len <= 0)
 		           {
-		                SendMsgText("Recv Error!" + " last Frame "+frame);
+		                SendMsgText(1,"Recv Error!" + " last Frame "+frame);
+		                writeSDString("Recv Error!" + " last Frame "+frame);
 				        recv_run_flag = false;
 		           }
 		           else
@@ -220,7 +250,8 @@ public class MainActivity extends Activity {
 		        		   {
 		        			   byte retData[];
 		        			   frame++;
-		        			   SendMsgText("framerate "+frame);
+		        			   SendMsgText(1,"framerate "+frame);
+		        			   writeSDString("framerate "+frame);
 		        			   if(decode_flag)
 		        			   {
 			        			    if((retData = decodeOneFrameExt(frame_buf,pos-4)) != null)
@@ -240,23 +271,35 @@ public class MainActivity extends Activity {
 					   			        	message.what = 2; 
 					   			        	message.obj = bigImg(bitmap);
 						        			mHandler.sendMessage(message);
+						        			writeSDString("decode ok "+frame);
 			        			    	}
 				   			        }
+			        			    else
+			        			    {
+				        				   writeSDString("decode err "+frame);
+			        			    }
 		        			   }
-
+		        			   else
+		        			   {
+		        				   SendMsgText(3,"framerate "+frame);
+		        			   }
 		        			   pos = 0;
 		        		   }
 		        	   }
 		           }
 				}
+				//释放常亮
+				//wakeLock.release(); 
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
-				SendMsgText("Recv Len UnknownHostException");
+				//this.SendMsgText(1,"Recv Len UnknownHostException");
+				writeSDString("Recv Len UnknownHostException");
 				recv_run_flag = false;
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				SendMsgText("Recv IOException");
+				//MainActivity.this.SendMsgText(1,"Recv IOException");
+				writeSDString("Recv IOException");
 				recv_run_flag = false; 
 				e.printStackTrace();
 			}
@@ -272,15 +315,37 @@ public class MainActivity extends Activity {
 	 }
 
     
-  //写文件
-    public void writeSDFile(String fileName, byte [] bytes) 
+    //写文件
+    public void writeSDFile(byte [] bytes) 
     {  
-            File file = new File(fileName); 
+    		String fileName = Environment.getExternalStorageDirectory().getPath();
+            File file = new File(fileName+"/video_debug.dat"); 
      
             FileOutputStream fos;
 			try {
 				fos = new FileOutputStream(file,true);       
 				fos.write(bytes);
+				fos.close();
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}          
+    }
+    
+    //写文件
+    public void writeSDString(String str) 
+    {  
+    		String fileName = Environment.getExternalStorageDirectory().getPath();
+    		File file = new File(fileName+"/video_debug.txt");  
+     
+            FileOutputStream fos;
+			try {
+				fos = new FileOutputStream(file,true);
+				str += "\n";
+				fos.write(str.getBytes());
 				fos.close();
 			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
