@@ -174,7 +174,7 @@ public class MainActivity extends Activity {
 		           len = inr.read(recv_buf);
 		           if(len <= 0)
 		           {
-		                SendMsgText("Recv Error!");
+		                SendMsgText("Recv Error!" + " last Frame "+frame);
 				        recv_run_flag = false;
 		           }
 		           else
