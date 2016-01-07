@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">SFFmpegAndroidDecoder</string>
+    <string name="app_name">rVideo</string>
     <string name="app_author">Lei Xiaohua</string>
     <string name="label_url">URL</string>
     <string name="btn_start">Start</string>
@@ -9,5 +9,9 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="OnOffStr">On</string>
-
+    <string name="ipStr">IP</string>
+	<string name="ipStrValue">103.44.145.243</string>
+	<string name="portStr">PORT</string>
+	<string name="portStrValue">22175</string>
+	<string name="strStat">Stat</string>
 </resources>

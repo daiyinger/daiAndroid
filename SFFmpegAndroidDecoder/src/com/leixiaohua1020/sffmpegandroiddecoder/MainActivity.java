@@ -22,21 +22,21 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
-import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
-import android.graphics.Bitmap.Config;
-import android.text.Editable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -45,7 +45,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -169,23 +168,25 @@ public class MainActivity extends Activity {
     }
     public class  TcpThread extends Thread 
     {  
+		Socket socket = null;
+		InputStream inr = null;
+		OutputStream out = null;
+		int connectCnt = 0;
+		int readDataOKFlag = 0;
     	public void run()
 	    {
-			Socket socket;
 	    	//创建一个Socket对象，指定服务器端的IP地址和端口号
 		    try {
 		    	if(ip_str == null || ip_str == "")
 				{
-		    		socket = new Socket("103.44.145.243",22175);//"192.168.1.45",10025
+		    		SendMsgText(1,"请确认视频服务器的IP和端口信息");
+		    		return;
 				}
 		    	else
 		    	{
-		    		
-		    		socket = new Socket(ip_str,Integer.parseInt(port_str));
-		    		SendMsgText(1,"connect");
+		    		socket = new Socket();
+		    		connectFunc();
 		    	}
-		    	//socket = new Socket("172.27.98.8",10025);//"192.1
-		    	InputStream inr = socket.getInputStream();
 				byte [] recv_buf = new byte[1024*100];
 				byte [] frame_buf = new byte[1024*100];
 				int rgbdata[] = new int[320*240*3];
@@ -196,31 +197,31 @@ public class MainActivity extends Activity {
 				int cycle = 0;
 				int info = 0;
 				int frame = 0;
-				//String folderurl=Environment.getExternalStorageDirectory().getPath();
 				writeSDString("tcp thread start!");
 				while(recv_run_flag)
 				{
 		           len = inr.read(recv_buf);
 		           if(len <= 0)
 		           {
-		                SendMsgText(1,"Recv Error!" + " last Frame "+frame);
+		                //SendMsgText(1,"Recv Error!" + " last Frame "+frame);
 		                writeSDString("Recv Error!" + " last Frame "+frame);
-				        recv_run_flag = false;
+				        if((connectCnt > 3) || (readDataOKFlag > 0))
+		                {
+				        	recv_run_flag = false;
+		                }
+				        else
+				        {
+				        	Thread.sleep(1000);
+				        	connectFunc();
+				        }
 		           }
 		           else
 		           {
+		        	   readDataOKFlag = 1;
 		        	   readPos = 0;
 		        	   if(init_flag == 0)
 		        	   {
 		        		   init_flag = 1;
-		        		   frame_buf[pos++] = recv_buf[readPos++];
-		        		   frame_buf[pos++] = recv_buf[readPos++];
-		        		   frame_buf[pos++] = recv_buf[readPos++];
-		        		   frame_buf[pos++] = recv_buf[readPos++];
-		        		   if (frame_buf[pos-4] != 0xFF || frame_buf[pos-3] != 0xFF || frame_buf[pos-2] != 0x55 || frame_buf[pos-1] != 0xAA)
-		        		   {
-								
-		        		   }
 		        		   pos = 0;
 		        		   cycle = 4;
 		        	   }
@@ -248,17 +249,19 @@ public class MainActivity extends Activity {
 		        		   }
 		        		   if(info == 1)
 		        		   {
-		        			   byte retData[];
+		        			   if(pos == 4)	//如果 pos 刚好等于4  则没有收到有效数据
+		        			   {
+			        			   pos = 0;
+			        			   continue;
+		        			   }
 		        			   frame++;
 		        			   SendMsgText(1,"framerate "+frame);
 		        			   writeSDString("framerate "+frame);
 		        			   if(decode_flag)
 		        			   {
+			        			   	byte retData[];
 			        			    if((retData = decodeOneFrameExt(frame_buf,pos-4)) != null)
 				   			        {
-			        				   	//if(frame < 200)
-			        				   	//writeSDFile(folderurl+"/test.yuv",rets);
-
 			        			    	rgb2ARGB(rgbdata, retData, 320, 240);
 			        			    	if(rgbdata != null)
 			        			    	{
@@ -292,18 +295,41 @@ public class MainActivity extends Activity {
 				//wakeLock.release(); 
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
-				//this.SendMsgText(1,"Recv Len UnknownHostException");
 				writeSDString("Recv Len UnknownHostException");
 				recv_run_flag = false;
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				//MainActivity.this.SendMsgText(1,"Recv IOException");
 				writeSDString("Recv IOException");
 				recv_run_flag = false; 
 				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		    
+	    }
+	    public void connectFunc()
+	    {
+	    	try
+    		{
+	    		connectCnt++;
+				SendMsgText(1,"connect "+connectCnt);
+    			writeSDString("connect "+connectCnt);
+				socket.connect(new InetSocketAddress(ip_str,Integer.parseInt(port_str)), 5000);
+				inr = socket.getInputStream();
+				out = socket.getOutputStream();
+	    		out.write(0x01);
+    		}
+    		catch (IllegalArgumentException e){
+    			// TODO Auto-generated catch block
+				writeSDString("connect IllegalArgumentException "+connectCnt);
+				e.printStackTrace();
+    		}
+	    	catch (IOException e) {
+				// TODO Auto-generated catch block
+				writeSDString("connect IOException "+connectCnt);
+				e.printStackTrace();
+			} 
 	    }
     }
     

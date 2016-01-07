@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="Input Bitstream" />
+        android:text="@string/ipStr" />
 
     <EditText
         android:id="@+id/input_url"
@@ -24,7 +24,7 @@
         android:layout_below="@+id/text_label1"
         android:ems="100"
         android:inputType="textUri"
-        android:text="103.44.145.243"
+        android:text="@string/ipStrValue"
         android:textColor="#ff8c00" >
     
         <requestFocus />
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/input_url"
         android:layout_below="@+id/input_url"
-        android:text="Output Raw YUV" />
+        android:text="@string/portStr" />
 
     <EditText
         android:id="@+id/output_url"
@@ -46,7 +46,7 @@
         android:layout_below="@+id/text_label2"
         android:ems="100"
         android:inputType="textUri"
-        android:text="22175"
+        android:text="@string/portStrValue"
         android:textColor="#ff8c00" >
 
     </EditText>
@@ -68,7 +68,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/output_url"
         android:layout_below="@+id/button_start"
-        android:text="TextView" />
+        android:text="@string/strStat" />
 
     <ImageView
         android:id="@+id/imageView1"
