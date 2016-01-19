@@ -241,15 +241,18 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
         }
         else if (item == mItemCam)
         {
+        	mOpenCvCameraView.disableView();
         	if(frontCamUse == true)
         	{
-                mOpenCvCameraView.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_FRONT);
+                mOpenCvCameraView.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_BACK);
+                frontCamUse = false;
         	}
         	else
         	{
-                mOpenCvCameraView.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_BACK);
+                mOpenCvCameraView.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_FRONT);
+                frontCamUse = true;
         	}
-        	frontCamUse = !frontCamUse;
+        	mOpenCvCameraView.enableView();
         }
         return true;
     }
