@@ -1,0 +1,108 @@
+package com.example.carplate;
+
+import java.io.File;
+
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+import org.opencv.core.*;
+
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.view.Menu;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+	private ImageView imageView = null;  
+	private Bitmap bmp = null;  
+	private TextView m_text = null;
+	private String path = null; //SDCARD 根目录
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		imageView = (ImageView) findViewById(R.id.image_view);  
+		m_text = (TextView) findViewById(R.id.myshow);
+	    //将汽车完整图像加载程序中并进行显示
+		 bmp = BitmapFactory.decodeResource(getResources(), R.drawable.test2);  
+	     imageView.setImageBitmap(bmp);
+	     path = Environment.getExternalStorageDirectory().getAbsolutePath();//获取跟目录 
+	     System.out.println(path);
+	}
+
+	//OpenCV类库加载并初始化成功后的回调函数，在此我们不进行任何操作  
+    private BaseLoaderCallback  mLoaderCallback = new BaseLoaderCallback(this) {  
+       @Override  
+       public void onManagerConnected(int status) {  
+           switch (status) {  
+               case LoaderCallbackInterface.SUCCESS:{  
+                   System.loadLibrary("imageproc");  
+               } break;  
+               default:{  
+                   super.onManagerConnected(status);  
+               } break;  
+           }  
+       }  
+   };  
+   public Handler mHandler=new Handler()  
+   {  
+       public void handleMessage(Message msg)  
+       {  
+           switch(msg.what)  
+           {  
+	            case 1: 
+	            	//Toast.makeText(getApplicationContext(), (String)msg.obj, Toast.LENGTH_SHORT).show();
+	            	m_text.setText((String)msg.obj);
+	                break; 
+	            default:  
+	                break;            
+           }    
+           super.handleMessage(msg);  
+       }  
+   }; 
+   public class  TcpThread extends Thread 
+   {  
+   	public void run()
+	    {
+	 	   System.out.println("entering the jni");
+	 	   SendMsgText("entering the jni");
+	 	   int w = bmp.getWidth();
+	 	   int h = bmp.getHeight();
+	 	   int[] pixels = new int[w * h];
+	 	   String result=null;
+	 	   bmp.getPixels(pixels, 0, w, 0, 0, w, h);
+		   System.out.println("entering the detect");
+	 	  // System.out.println(Environment.getExternalStorageState());
+	 	   result=CarPlateDetection.ImageProc(pixels, w, h,path);
+	 	   System.out.println(result);
+	 	   //m_text.setText(result);  
+	 	   SendMsgText(result);
+	    }
+   }
+   public void SendMsgText(String str)
+   {
+   	Message message=new Message(); 
+       message.what=1; 
+       message.obj = str;
+       mHandler.sendMessage(message);
+   }
+   public void click(View view){
+	   new TcpThread().start();
+   }
+   
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		  //通过OpenCV引擎服务加载并初始化OpenCV类库，所谓OpenCV引擎服务即是  
+       //OpenCV_2.4.3.2_Manager_2.4_*.apk程序包，存在于OpenCV安装包的apk目录中  
+       OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this, mLoaderCallback);  
+	}
+}
