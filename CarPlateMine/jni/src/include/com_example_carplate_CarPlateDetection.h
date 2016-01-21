@@ -13,7 +13,7 @@ extern "C" {
  * Signature: ([III)Ljava/lang/String;
  */
 JNIEXPORT jbyteArray JNICALL Java_com_example_carplate_CarPlateDetection_ImageProc
-  (JNIEnv *, jclass, jstring, jstring, jstring);
+  (JNIEnv *, jclass, jstring, jstring, jstring, jstring);
 
 #ifdef __cplusplus
 }

@@ -1,6 +1,7 @@
 package com.example.carplate;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import org.opencv.android.BaseLoaderCallback;
@@ -39,6 +40,7 @@ public class MainActivity extends Activity {
 	private TextView m_text = null;
 	private String path = null; //SDCARD 根目录
 	String imgpath = null;
+	boolean selected_img_flag = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,6 +55,18 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				 if(selected_img_flag == false)
+				 {
+					 File file=new File(imgpath);
+					 if(!file.exists())
+					 {
+						 SendMsgText("未选择图片 且默认路径 "+imgpath+"图片不存在!", 2);
+						 return;
+					 }
+					 bmp = getLoacalBitmap(imgpath);
+					 imageView.setImageBitmap(bmp);
+					 selected_img_flag = true;
+				 }
 				 new MyTask().execute();
 			}});
 		btnPic.setOnClickListener( new OnClickListener(){
@@ -66,12 +80,28 @@ public class MainActivity extends Activity {
 				startActivityForResult(i, 1);
 			}});
 	    //将汽车完整图像加载程序中并进行显示
-		 bmp = BitmapFactory.decodeResource(getResources(), R.drawable.plate_locate);  
+		 bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ai);  
 	     imageView.setImageBitmap(bmp);
 	     path = Environment.getExternalStorageDirectory().getAbsolutePath();//获取跟目录 
-	     imgpath = path+"/plate_locate.jpg";
+	     imgpath = path+"/ai/plate_locate.jpg";
 	     System.out.println(path);
 	}
+	
+	 /**
+	    * 加载本地图片
+	    * @param url
+	    * @return
+	    */
+    public static Bitmap getLoacalBitmap(String url) {
+         try {
+              FileInputStream fis = new FileInputStream(url);
+              return BitmapFactory.decodeStream(fis);  ///把流转化为Bitmap图片        
+
+           } catch (FileNotFoundException e) {
+              e.printStackTrace();
+              return null;
+         }
+    }
 
 	//OpenCV类库加载并初始化成功后的回调函数，在此我们不进行任何操作  
     private BaseLoaderCallback  mLoaderCallback = new BaseLoaderCallback(this) {  
@@ -145,13 +175,14 @@ public class MainActivity extends Activity {
        @Override  
        protected String doInBackground(String... params) {
     	   try {  
-				String svmpath = path+"/svm.xml";
-				String annpath = path+"/ann.xml";
+    		   	String logpath = path+"/ai/ai_log.log";
+				String svmpath = path+"/ai/svm.xml";
+				String annpath = path+"/ai/ann.xml";
 			    System.out.println("entering the jni");
 			    SendMsgText("正在识别.....",1);
 			    Thread.sleep(100);
 			    String result = null;
-			    byte[] resultByte =CarPlateDetection.ImageProc(imgpath, svmpath, annpath);
+			    byte[] resultByte =CarPlateDetection.ImageProc(logpath, imgpath, svmpath, annpath);
 			    System.out.println(result);
 			    if(resultByte != null)
 			    {

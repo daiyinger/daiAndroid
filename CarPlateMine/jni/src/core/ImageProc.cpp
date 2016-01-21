@@ -34,17 +34,24 @@ char* jstring2str(JNIEnv* env, jstring jstr) {
 
 
 JNIEXPORT jbyteArray JNICALL Java_com_example_carplate_CarPlateDetection_ImageProc
-  (JNIEnv *env, jclass obj, jstring imgpath, jstring svmpath,
+  (JNIEnv *env, jclass obj, jstring logpath, jstring imgpath, jstring svmpath,
 		jstring annpath){
 	CPlateRecognize pr;
+	FILE *fp = NULL;
+	int i;
 //	const string *img = (*env)->GetStringUTFChars(env, imgpath, 0);
 //	const string *svm = (*env)->GetStringUTFChars(env, svmpath, 0);
 //	const string *ann = (*env)->GetStringUTFChars(env, annpath, 0);
+	char* log = jstring2str(env,logpath);
 	char* img = jstring2str(env,imgpath);
 	char* svm = jstring2str(env,svmpath);
 	char* ann = jstring2str(env,annpath);
+	fp = fopen(log,"a+");//"/sdcard/ai/ai_log.txt","w+");
+	LOGD("fp %x\r\n",(unsigned int)fp);
+	fprintf(fp,"\r\n============= 开始 ===========\r\n");
 	LOGD("enter 0");
 	LOGD("%s\n%s\n%s",img,svm,ann);
+	fprintf(fp,"%s\r\n%s\r\n%s\r\n",img,svm,ann);
 	Mat src = imread(img);
 	pr.LoadSVM(svm);
 	pr.LoadANN(ann);
@@ -66,11 +73,19 @@ JNIEXPORT jbyteArray JNICALL Java_com_example_carplate_CarPlateDetection_ImagePr
 	int count = pr.plateRecognize(src, plateVec);
 	string str = "0";
 	LOGD("enter 3");
-	if (count == 0 && (plateVec.size()  > 0)) {
+	fprintf(fp,"res %d \r\n",count);
+	usleep(10);
+	if ((count == 0) && (plateVec.size()  > 0)) {
 		str = plateVec[0];
+		for(i = 0; i< plateVec.size(); i++)
+		{
+			fprintf(fp, "%s\r\n", plateVec[i].c_str());
+		}
 	}
 	else
 	{
+		fprintf(fp,"未能识别!\r\n");
+		fclose(fp);
 		return NULL;
 	}
 	LOGD("enter 4");
@@ -79,6 +94,6 @@ JNIEXPORT jbyteArray JNICALL Java_com_example_carplate_CarPlateDetection_ImagePr
 	jbyte *by = (jbyte*) result;
 	jbyteArray jarray = env->NewByteArray(strlen(result));
 	env->SetByteArrayRegion(jarray, 0, strlen(result), by);
+	fclose(fp);
 	return jarray;
 }
-
