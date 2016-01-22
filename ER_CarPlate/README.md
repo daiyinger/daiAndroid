@@ -1,1 +1,1 @@
-ER_CarPlate的Android工程
+EasyPR 的Android工程
