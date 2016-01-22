@@ -54,11 +54,15 @@ Mat colorMatch(const Mat &src, Mat &match, const Color r,
   LOGD("cvtColor ok");
   std::vector<cv::Mat> hsvSplit;
   split(src_hsv, hsvSplit);
+  LOGD("split end hsvSplit size %d",hsvSplit.size());
+  if(hsvSplit.size() < 3)
+  {
+      throw "split res error";
+  }
   equalizeHist(hsvSplit[2], hsvSplit[2]);
   merge(hsvSplit, src_hsv);
 
   //匹配模板基色,切换以查找想要的基色
-
   int min_h = 0;
   int max_h = 0;
   switch (r) {
@@ -81,7 +85,6 @@ Mat colorMatch(const Mat &src, Mat &match, const Color r,
 
   float diff_h = float((max_h - min_h) / 2);
   float avg_h = min_h + diff_h;
-
   int channels = src_hsv.channels();
   int nRows = src_hsv.rows;
 
@@ -157,14 +160,11 @@ Mat colorMatch(const Mat &src, Mat &match, const Color r,
   // cout << "avg_v:" << v_all / count << endl;
 
   // 获取颜色匹配后的二值灰度图
-
   Mat src_grey;
   std::vector<cv::Mat> hsvSplit_done;
   split(src_hsv, hsvSplit_done);
   src_grey = hsvSplit_done[2];
-
   match = src_grey;
-
   return src_grey;
 }
 
@@ -330,6 +330,7 @@ bool plateColorJudge(const Mat &src, const Color r, const bool adaptive_minsv,
 
   Mat src_gray;
   colorMatch(src, src_gray, r, adaptive_minsv);
+  LOGD("enter colorMatch end 1");
 
   percent =
       float(countNonZero(src_gray)) / float(src_gray.rows * src_gray.cols);

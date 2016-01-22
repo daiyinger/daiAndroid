@@ -56,7 +56,14 @@ JNIEXPORT jbyteArray JNICALL Java_com_daiyinger_carplate_CarPlateDetection_Image
 	vector < string > plateVec;
 	LOGD("enter 2");
 	//int count = pr.plateRecognize(src, plateVec);
-	plateVec = easypr::api::plate_recognize(img, svm, ann);
+	try
+	{
+		plateVec = easypr::api::plate_recognize(img, svm, ann);
+	}
+	catch(...)
+	{
+		
+	}
 	string str = "0";
 	LOGD("enter 3");
 	usleep(10);

@@ -96,11 +96,11 @@ int CPlateLocate::colorSearch(const Mat &src, const Color r, Mat &out,
   // 进行颜色查找
 
   colorMatch(src, match_grey, r, false);
-
+  LOGD("enter colorMatch end 0");
   if (m_debug) {
     //utils::imwrite("resources/image/tmp/match_grey.jpg", match_grey);
   }
-
+  
   Mat src_threshold;
   threshold(match_grey, src_threshold, 0, 255,
             CV_THRESH_OTSU + CV_THRESH_BINARY);

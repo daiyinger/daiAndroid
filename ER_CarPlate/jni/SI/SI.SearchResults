@@ -1,4 +1,11 @@
----- kDefaultAnnPath Matches (3 in 3 files) ----
-Chars_identify.cpp (src\core):  ann_ = ml::ANN_MLP::load<ml::ANN_MLP>(kDefaultAnnPath);
-Config.h (src\include\easypr):static  char* kDefaultAnnPath = "/sdcard/ai/ann.xml";
-ImageProc.cpp (src\core)://char* kDefaultAnnPath;
+---- colorMatch Matches (10 in 3 files) ----
+Core_func.cpp (src\core):Mat colorMatch(const Mat &src, Mat &match, const Color r,
+Core_func.cpp (src\core):  LOGD("enter colorMatch");
+Core_func.cpp (src\core):      bool colorMatched = false;
+Core_func.cpp (src\core):          colorMatched = true;
+Core_func.cpp (src\core):      if (colorMatched == true) {
+Core_func.cpp (src\core):  colorMatch(src, src_gray, r, adaptive_minsv);
+Core_func.cpp (src\core):  LOGD("enter colorMatch end 1");
+Core_func.h (src\include\easypr\core):Mat colorMatch(const Mat& src, Mat& match, const Color r,
+Plate_locate.cpp (src\core):  colorMatch(src, match_grey, r, false);
+Plate_locate.cpp (src\core):  LOGD("enter colorMatch end 0");

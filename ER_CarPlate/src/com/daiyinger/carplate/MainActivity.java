@@ -175,11 +175,13 @@ public class MainActivity extends Activity {
     		   	String logpath = path+"/ai/ai_log.log";
 				String svmpath = path+"/ai/svm.xml";
 				String annpath = path+"/ai/ann.xml";
+				String imagepath =  new String(imgpath.getBytes(),"gbk");
 			    System.out.println("entering the jni");
 			    SendMsgText("正在识别.....",1);
 			    Thread.sleep(100);
 			    String result = null;
-			    byte[] resultByte =CarPlateDetection.ImageProc(logpath, imgpath, svmpath, annpath);
+			    
+			    byte[] resultByte =CarPlateDetection.ImageProc(logpath, imagepath, svmpath, annpath);
 			    System.out.println(result);
 			    if(resultByte != null)
 			    {
