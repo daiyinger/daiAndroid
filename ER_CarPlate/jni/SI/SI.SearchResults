@@ -1,0 +1,4 @@
+---- kDefaultAnnPath Matches (3 in 3 files) ----
+Chars_identify.cpp (src\core):  ann_ = ml::ANN_MLP::load<ml::ANN_MLP>(kDefaultAnnPath);
+Config.h (src\include\easypr):static  char* kDefaultAnnPath = "/sdcard/ai/ann.xml";
+ImageProc.cpp (src\core)://char* kDefaultAnnPath;
