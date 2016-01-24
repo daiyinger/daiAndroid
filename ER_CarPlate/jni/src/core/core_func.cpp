@@ -45,13 +45,13 @@ Mat colorMatch(const Mat &src, Mat &match, const Color r,
 
   // 转到HSV空间进行处理，颜色搜索主要使用的是H分量进行蓝色与黄色的匹配工作
 
-  LOGD("enter colorMatch");
+  //LOGD("enter colorMatch");
   if(!src.empty())
   {
- 	LOGD("image ok");
+ 	//LOGD("image ok");
   	cvtColor(src, src_hsv, CV_BGR2HSV);
   }
-  LOGD("cvtColor ok");
+  //LOGD("cvtColor ok");
   std::vector<cv::Mat> hsvSplit;
   split(src_hsv, hsvSplit);
   LOGD("split end hsvSplit size %d",hsvSplit.size());
@@ -330,7 +330,7 @@ bool plateColorJudge(const Mat &src, const Color r, const bool adaptive_minsv,
 
   Mat src_gray;
   colorMatch(src, src_gray, r, adaptive_minsv);
-  LOGD("enter colorMatch end 1");
+  //LOGD("enter colorMatch end 1");
 
   percent =
       float(countNonZero(src_gray)) / float(src_gray.rows * src_gray.cols);

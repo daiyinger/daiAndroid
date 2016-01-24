@@ -1,9 +1,18 @@
 #ifndef EASYPR_CONFIG_H_
 #define EASYPR_CONFIG_H_
+#include <string>
 
+using namespace std;
 
-extern char* kDefaultSvmPath;  // = "/sdcard/ai/svm.xml";
-extern char* kDefaultAnnPath;  // = "/sdcard/ai/ann.xml";
+class resourcePath
+{
+    public:
+        string kDefaultSvmPath;  
+        string kDefaultAnnPath; 
+        string defaultSdcardPath;
+        string defaultImgPath;
+};
+extern resourcePath path;
 
 namespace easypr {
 
@@ -48,7 +57,7 @@ static const char *kChars[] = {
 
 static const int kCharsTotalNumber = 65;
 
-static bool kDebug = false;
+static bool kDebug = true;
 
 }
 

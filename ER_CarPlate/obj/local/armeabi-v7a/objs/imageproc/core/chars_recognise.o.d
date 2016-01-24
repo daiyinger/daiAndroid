@@ -7,43 +7,43 @@ obj/local/armeabi-v7a/objs/imageproc/core/chars_recognise.o: \
  ../../sdk/native/jni/include/opencv2/core.hpp \
  ../../sdk/native/jni/include/opencv2/core/cvdef.h \
  ../../sdk/native/jni/include/opencv2/hal/defs.h \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/limits.h \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/sys/cdefs.h \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/sys/cdefs_elf.h \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/android/api-level.h \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/sys/limits.h \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/linux/limits.h \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/machine/internal_types.h \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/machine/limits.h \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/sys/syslimits.h \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/asm/page.h \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/cstdint \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/cmath \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/algorithm \
+ /cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/limits.h \
+ /cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/sys/cdefs.h \
+ /cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/sys/cdefs_elf.h \
+ /cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/android/api-level.h \
+ /cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/sys/limits.h \
+ /cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/linux/limits.h \
+ /cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/machine/internal_types.h \
+ /cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/machine/limits.h \
+ /cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/sys/syslimits.h \
+ /cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/asm/page.h \
+ /cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/cstdint \
+ /cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/cmath \
+ /cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/algorithm \
  ../../sdk/native/jni/include/opencv2/core/version.hpp \
  ../../sdk/native/jni/include/opencv2/core/base.hpp \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/climits \
+ /cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/climits \
  ../../sdk/native/jni/include/opencv2/core/cvstd.hpp \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/cstddef \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/cstring \
+ /cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/cstddef \
+ /cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/cstring \
  ../../sdk/native/jni/include/opencv2/core/ptr.inl.hpp \
  ../../sdk/native/jni/include/opencv2/hal.hpp \
  ../../sdk/native/jni/include/opencv2/core/sse_utils.hpp \
  ../../sdk/native/jni/include/opencv2/core/traits.hpp \
  ../../sdk/native/jni/include/opencv2/core/matx.hpp \
  ../../sdk/native/jni/include/opencv2/core/types.hpp \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/cfloat \
+ /cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/cfloat \
  ../../sdk/native/jni/include/opencv2/core/mat.hpp \
  ../../sdk/native/jni/include/opencv2/core/bufferpool.hpp \
  ../../sdk/native/jni/include/opencv2/core/mat.inl.hpp \
  ../../sdk/native/jni/include/opencv2/core/persistence.hpp \
  ../../sdk/native/jni/include/opencv2/core/operations.hpp \
  ../../sdk/native/jni/include/opencv2/core/cvstd.inl.hpp \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/complex \
+ /cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/complex \
  ../../sdk/native/jni/include/opencv2/core/utility.hpp \
  ../../sdk/native/jni/include/opencv2/core/core_c.h \
  ../../sdk/native/jni/include/opencv2/core/types_c.h \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/assert.h \
+ /cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/assert.h \
  ../../sdk/native/jni/include/opencv2/core/optim.hpp \
  ../../sdk/native/jni/include/opencv2/imgproc.hpp \
  ../../sdk/native/jni/include/opencv2/imgproc/imgproc_c.h \
@@ -61,7 +61,7 @@ obj/local/armeabi-v7a/objs/imageproc/core/chars_recognise.o: \
  ../../sdk/native/jni/include/opencv2/objdetect.hpp \
  ../../sdk/native/jni/include/opencv2/objdetect/detection_based_tracker.hpp \
  ../../sdk/native/jni/include/opencv2/objdetect/objdetect_c.h \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/deque \
+ /cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/deque \
  ../../sdk/native/jni/include/opencv2/calib3d.hpp \
  ../../sdk/native/jni/include/opencv2/core/affine.hpp \
  ../../sdk/native/jni/include/opencv2/calib3d/calib3d_c.h \
@@ -72,13 +72,13 @@ obj/local/armeabi-v7a/objs/imageproc/core/chars_recognise.o: \
  ../../sdk/native/jni/include/opencv2/imgcodecs/imgcodecs_c.h \
  ../../sdk/native/jni/include/opencv2/videoio/videoio_c.h \
  ../../sdk/native/jni/include/opencv2/ml.hpp \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/map \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/iostream \
+ /cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/map \
+ /cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/iostream \
  jni/src/include/easypr/core/chars_identify.h \
  jni/src/include/easypr/util/kv.h \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/memory \
+ /cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/memory \
  jni/src/include/easypr/util/util.h \
- /cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/fstream \
+ /cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/fstream \
  ../../sdk/native/jni/include/opencv2/core/core.hpp
 
 jni/src/include/easypr/core/chars_recognise.h:
@@ -95,43 +95,43 @@ jni/src/include/easypr/core/core_func.h:
 
 ../../sdk/native/jni/include/opencv2/hal/defs.h:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/limits.h:
+/cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/limits.h:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/sys/cdefs.h:
+/cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/sys/cdefs.h:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/sys/cdefs_elf.h:
+/cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/sys/cdefs_elf.h:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/android/api-level.h:
+/cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/android/api-level.h:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/sys/limits.h:
+/cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/sys/limits.h:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/linux/limits.h:
+/cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/linux/limits.h:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/machine/internal_types.h:
+/cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/machine/internal_types.h:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/machine/limits.h:
+/cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/machine/limits.h:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/sys/syslimits.h:
+/cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/sys/syslimits.h:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/asm/page.h:
+/cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/asm/page.h:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/cstdint:
+/cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/cstdint:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/cmath:
+/cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/cmath:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/algorithm:
+/cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/algorithm:
 
 ../../sdk/native/jni/include/opencv2/core/version.hpp:
 
 ../../sdk/native/jni/include/opencv2/core/base.hpp:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/climits:
+/cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/climits:
 
 ../../sdk/native/jni/include/opencv2/core/cvstd.hpp:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/cstddef:
+/cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/cstddef:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/cstring:
+/cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/cstring:
 
 ../../sdk/native/jni/include/opencv2/core/ptr.inl.hpp:
 
@@ -145,7 +145,7 @@ jni/src/include/easypr/core/core_func.h:
 
 ../../sdk/native/jni/include/opencv2/core/types.hpp:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/cfloat:
+/cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/cfloat:
 
 ../../sdk/native/jni/include/opencv2/core/mat.hpp:
 
@@ -159,7 +159,7 @@ jni/src/include/easypr/core/core_func.h:
 
 ../../sdk/native/jni/include/opencv2/core/cvstd.inl.hpp:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/complex:
+/cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/complex:
 
 ../../sdk/native/jni/include/opencv2/core/utility.hpp:
 
@@ -167,7 +167,7 @@ jni/src/include/easypr/core/core_func.h:
 
 ../../sdk/native/jni/include/opencv2/core/types_c.h:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/platforms/android-8/arch-arm/usr/include/assert.h:
+/cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/assert.h:
 
 ../../sdk/native/jni/include/opencv2/core/optim.hpp:
 
@@ -203,7 +203,7 @@ jni/src/include/easypr/core/core_func.h:
 
 ../../sdk/native/jni/include/opencv2/objdetect/objdetect_c.h:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/deque:
+/cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/deque:
 
 ../../sdk/native/jni/include/opencv2/calib3d.hpp:
 
@@ -225,18 +225,18 @@ jni/src/include/easypr/core/core_func.h:
 
 ../../sdk/native/jni/include/opencv2/ml.hpp:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/map:
+/cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/map:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/iostream:
+/cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/iostream:
 
 jni/src/include/easypr/core/chars_identify.h:
 
 jni/src/include/easypr/util/kv.h:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/memory:
+/cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/memory:
 
 jni/src/include/easypr/util/util.h:
 
-/cygdrive/e/DrFiles/Tools/Src/android-ndk-r10b/sources/cxx-stl/gnu-libstdc++/4.8/include/fstream:
+/cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/fstream:
 
 ../../sdk/native/jni/include/opencv2/core/core.hpp:

@@ -1,3 +1,4 @@
+#include "easypr/config.h"
 #include "easypr/core/plate_locate.h"
 #include "easypr/util/util.h"
 #include "easypr.h"
@@ -96,9 +97,9 @@ int CPlateLocate::colorSearch(const Mat &src, const Color r, Mat &out,
   // 进行颜色查找
 
   colorMatch(src, match_grey, r, false);
-  LOGD("enter colorMatch end 0");
+  //LOGD("enter colorMatch end 0");
   if (m_debug) {
-    //utils::imwrite("resources/image/tmp/match_grey.jpg", match_grey);
+    utils::imwrite(path.defaultImgPath + "match_grey.jpg", match_grey);
   }
   
   Mat src_threshold;
@@ -110,7 +111,7 @@ int CPlateLocate::colorSearch(const Mat &src, const Color r, Mat &out,
   morphologyEx(src_threshold, src_threshold, MORPH_CLOSE, element);
 
   if (m_debug) {
-    //utils::imwrite("resources/image/tmp/color.jpg", src_threshold);
+    utils::imwrite(path.defaultImgPath + "color.jpg", src_threshold);
   }
 
   src_threshold.copyTo(out);
@@ -236,7 +237,7 @@ int CPlateLocate::sobelSecSearchPart(Mat &bound, Point2f refpoint,
       }
     }
 
-    //utils::imwrite("resources/image/tmp/repaireimg1.jpg", bound_threshold);
+    utils::imwrite(path.defaultImgPath + "repaireimg2.jpg", bound_threshold);
 
     //两边的区域不要
 
@@ -244,7 +245,7 @@ int CPlateLocate::sobelSecSearchPart(Mat &bound, Point2f refpoint,
       bound_threshold.data[i * bound_threshold.cols + posLeft] = 0;
       bound_threshold.data[i * bound_threshold.cols + posRight] = 0;
     }
-    //utils::imwrite("resources/image/tmp/repaireimg2.jpg", bound_threshold);
+    utils::imwrite(path.defaultImgPath + "repaireimg2.jpg", bound_threshold);
   }
 
   vector<vector<Point>> contours;
@@ -289,7 +290,7 @@ int CPlateLocate::sobelSecSearch(Mat &bound, Point2f refpoint,
 
   sobelOper(bound, bound_threshold, 3, 10, 3);
 
-  //utils::imwrite("resources/image/tmp/sobelSecSearch.jpg", bound_threshold);
+  utils::imwrite(path.defaultImgPath + "sobelSecSearch.jpg", bound_threshold);
 
   vector<vector<Point>> contours;
   findContours(bound_threshold,
@@ -394,8 +395,7 @@ void DeleteNotArea(Mat &inmat) {
     threshold(input_grey, img_threshold, threadHoldV, 255, CV_THRESH_BINARY);
     // threshold(input_grey, img_threshold, 5, 255, CV_THRESH_OTSU +
     // CV_THRESH_BINARY);
-
-    //utils::imwrite("resources/image/tmp/inputgray2.jpg", img_threshold);
+    utils::imwrite(path.defaultImgPath + "inputgray2.jpg", img_threshold);
 
   } else if (YELLOW == plateType) {
     img_threshold = input_grey.clone();
@@ -405,7 +405,7 @@ void DeleteNotArea(Mat &inmat) {
     threshold(input_grey, img_threshold, threadHoldV, 255,
               CV_THRESH_BINARY_INV);
 
-    //utils::imwrite("resources/image/tmp/inputgray2.jpg", img_threshold);
+    utils::imwrite(path.defaultImgPath + "inputgray2.jpg", img_threshold);
 
     // threshold(input_grey, img_threshold, 10, 255, CV_THRESH_OTSU +
     // CV_THRESH_BINARY_INV);
@@ -780,7 +780,7 @@ int CPlateLocate::sobelOperT(const Mat &in, Mat &out, int blurSize, int morphW,
   else
     mat_gray = mat_blur;
 
-  //utils::imwrite("resources/image/tmp/grayblure.jpg", mat_gray);
+  Utils::imwrite(path.defaultImgPath + "grayblure.jpg", mat_gray);
 
   // equalizeHist(mat_gray, mat_gray);
 
@@ -799,18 +799,18 @@ int CPlateLocate::sobelOperT(const Mat &in, Mat &out, int blurSize, int morphW,
   Mat grad;
   addWeighted(abs_grad_x, 1, 0, 0, 0, grad);
 
-  //utils::imwrite("resources/image/tmp/graygrad.jpg", grad);
+  utils::imwrite(path.defaultImgPath + "graygrad.jpg", grad);
 
   Mat mat_threshold;
   double otsu_thresh_val =
       threshold(grad, mat_threshold, 0, 255, CV_THRESH_OTSU + CV_THRESH_BINARY);
 
-  //utils::imwrite("resources/image/tmp/grayBINARY.jpg", mat_threshold);
+  utils::imwrite(path.defaultImgPath + "grayBINARY.jpg", mat_threshold);
 
   Mat element = getStructuringElement(MORPH_RECT, Size(morphW, morphH));
   morphologyEx(mat_threshold, mat_threshold, MORPH_CLOSE, element);
 
-  //utils::imwrite("resources/image/tmp/phologyEx.jpg", mat_threshold);
+  utils::imwrite(path.defaultImgPath + "phologyEx.jpg", mat_threshold);
 
   out = mat_threshold;
 

@@ -47,7 +47,9 @@ int CPlateRecognize::plateRecognize(Mat src,
 
     //如果是Debug模式，则还需要将定位的图片显示在原图左上角
 
+	
     if (getPDDebug()) {
+	  LOGD("PDDebug enter");
       Mat result;
       src.copyTo(result);
 
@@ -58,7 +60,7 @@ int CPlateRecognize::plateRecognize(Mat src,
         int height = 36;
         int width = 136;
         if (height * index + height < result.rows) {
-          Mat imageRoi = result(Rect(0, 0 + height * index, width, height));
+          Mat imageRoi = result(Rect(abs(result.cols/2-width/2), 0 + height * index, width, height));
           addWeighted(imageRoi, 0, plate, 1, 0, imageRoi);
         }
         index++;
@@ -81,6 +83,16 @@ int CPlateRecognize::plateRecognize(Mat src,
       //显示定位框的图片
 	  
       //showResult(result);
+      if(kDebug)
+      {
+      	LOGD("enter kDebug result 0");
+    	utils::imwrite(path.defaultImgPath+"result.jpg", result);
+      }
+      if (false)//kDebug) 
+      {
+	  	LOGD("enter kDebug result");
+		showResultExt(result);
+  	  }
     }
   }
 

@@ -20,6 +20,7 @@
 /*! \namespace easypr
     Namespace where all the C++ EasyPR functionality resides
 */
+using namespace std;
 namespace easypr {
 
 class CPlateLocate {
@@ -128,6 +129,7 @@ class CPlateLocate {
 
   inline bool getDebug() { return m_debug; }
 
+
   //! PlateLocate所用常量
 
   static const int DEFAULT_GAUSSIANBLUR_SIZE = 5;
@@ -158,6 +160,9 @@ class CPlateLocate {
 
   static const int DEFAULT_DEBUG = 1;
 
+  static string m_defaultSdcardPath;
+
+
  protected:
   //! 高斯模糊所用变量
 
@@ -182,6 +187,7 @@ class CPlateLocate {
   //! 是否开启调试模式，0关闭，非0开启
 
   bool m_debug;
+
 };
 
 } /*! \namespace easypr*/

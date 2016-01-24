@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 #include <opencv2/opencv.hpp>
+#include "config.h"
+
 
 namespace easypr {
 
@@ -29,6 +31,7 @@ static void plate_locate(const char* image, const bool life_mode = true) {
   assert(!src.empty());
 
   CPlateLocate plate;
+  
   plate.setDebug(1);
   plate.setLifemode(life_mode);
 
@@ -45,14 +48,16 @@ static std::vector<std::string> plate_recognize(const char* image,
 
   assert(!img.empty());
 
-  kDefaultSvmPath = (char *)model_svm;
-  kDefaultAnnPath = (char *)model_ann;
+
+  path.kDefaultSvmPath = (char *)model_svm;
+  path.kDefaultAnnPath = (char *)model_ann;
 
   CPlateRecognize pr;
   pr.setLifemode(life_mode);
-  pr.setDebug(false);
+  pr.setDebug(true);
 
   std::vector<std::string> results;
+
   pr.plateRecognize(img, results);
 
   return std::move(results);

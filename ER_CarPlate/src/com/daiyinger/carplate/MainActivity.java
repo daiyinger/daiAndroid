@@ -3,18 +3,22 @@ package com.daiyinger.carplate;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,15 +26,23 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore.Images.ImageColumns;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	private ImageView imageView = null;  
+	
+    private int window_width, window_height;// 控件宽度
+	private int state_height;// 状态栏的高度
+    private DragImageView  mZoomView = null;
+    private ViewTreeObserver viewTreeObserver;
 	private Bitmap bmp = null; 
 	private Button btnTrain = null;
 	private Button btnPic = null;
@@ -38,14 +50,16 @@ public class MainActivity extends Activity {
 	private String path = null; //SDCARD 根目录
 	String imgpath = null;
 	boolean selected_img_flag = false;
+	@SuppressWarnings({ "deprecation" })
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		imageView = (ImageView) findViewById(R.id.image_view);  
 		m_text = (TextView) findViewById(R.id.myshow);
 		btnTrain = (Button) findViewById(R.id.btn_plate);
 		btnPic = (Button) findViewById(R.id.btn_pick);
+		
+		mZoomView = (DragImageView)findViewById(R.id.imageview);  
 		
 		btnTrain.setOnClickListener( new OnClickListener(){
 
@@ -61,12 +75,12 @@ public class MainActivity extends Activity {
 						 return;
 					 }
 					 bmp = getLoacalBitmap(imgpath);
-					 imageView.setImageBitmap(bmp);
+					 mZoomView.setImageBitmap(bmp);
 					 selected_img_flag = true;
 				 }
 				 new MyTask().execute();
 			}});
-		btnPic.setOnClickListener( new OnClickListener(){
+		    btnPic.setOnClickListener( new OnClickListener(){
 
 			@Override
 			public void onClick(View arg0) {
@@ -78,11 +92,83 @@ public class MainActivity extends Activity {
 			}});
 	    //将汽车完整图像加载程序中并进行显示
 		 bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ai);  
-	     imageView.setImageBitmap(bmp);
+		 mZoomView.setImageBitmap(bmp);
+		 /** 获取可見区域高度 **/
+		 WindowManager manager = getWindowManager();
+		 window_width = manager.getDefaultDisplay().getWidth();
+		 window_height = manager.getDefaultDisplay().getHeight();
+		 mZoomView.setmActivity(this);//注入Activity.
+		 /** 测量状态栏高度 **/
+		 viewTreeObserver = mZoomView.getViewTreeObserver();
+		 viewTreeObserver
+				.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+					@Override
+					public void onGlobalLayout() {
+						if (state_height == 0) {
+							// 获取状况栏高度
+							Rect frame = new Rect();
+							getWindow().getDecorView()
+									.getWindowVisibleDisplayFrame(frame);
+							state_height = frame.top;
+							mZoomView.setScreen_H(window_height);
+							mZoomView.setScreen_W(window_width);
+						}
+
+					}
+				});
 	     path = Environment.getExternalStorageDirectory().getAbsolutePath();//获取跟目录 
 	     imgpath = path+"/ai/plate_locate.jpg";
 	     System.out.println(path);
+	     InitEnv();
 	}
+	
+	//查询xml资源是否存在 如果不存在则从assets进行拷贝
+	@SuppressLint("ShowToast")
+	void InitEnv()
+	{
+		 try {
+			 String lastVersion = null;
+			 SharedPreferences sharedPreferences;
+	         sharedPreferences = getSharedPreferences("info",Activity.MODE_PRIVATE); 
+	         if(sharedPreferences.contains("version") == true)
+	         {    	
+	        	lastVersion = sharedPreferences.getString("version","0.0");
+	         }
+			 String curVersion = PlaneUtil.getVersion(getApplicationContext());
+			 if(!curVersion.equals(lastVersion))
+			 {
+				 String sdpath = Environment.getExternalStorageDirectory().getAbsolutePath();
+				 File dir = new File(sdpath + "/ai");
+				 if(!dir.isDirectory())
+				 {
+					 dir.mkdir();
+				 }
+				 PlaneUtil.copyBigDataToSD(getApplicationContext(),
+						 "ann.xml",sdpath + "/ai/ann.xml");
+				 PlaneUtil.copyBigDataToSD(getApplicationContext(),
+						 "svm.xml",sdpath + "/ai/svm.xml");
+				 PlaneUtil.copyBigDataToSD(getApplicationContext(),
+						 "plate_locate.jpg",sdpath + "/ai/plate_locate.jpg");
+				 dir = new File(sdpath + "/ai/etc/");
+				 if(!dir.isDirectory())
+				 {
+					 dir.mkdir();
+				 }
+				 PlaneUtil.copyBigDataToSD(getApplicationContext(),
+						 "province_mapping",sdpath + "/ai/etc/province_mapping");
+				 
+				 SharedPreferences.Editor editor = sharedPreferences.edit(); 
+		     	 //用putString的方法保存数据 
+		     	 editor.putString("version",curVersion);
+		     	 editor.commit(); 
+			 }
+		 } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		 }
+	}
+	
 	
 	 /**
 	    * 加载本地图片
@@ -119,18 +205,26 @@ public class MainActivity extends Activity {
    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    super.onActivityResult(requestCode, resultCode, data);
 	 
-	    if (requestCode == 1 && resultCode == RESULT_OK && null != data) {
-	    	Uri uri = data.getData();
-	    	ContentResolver cr = this.getContentResolver();  
-            try {  
-            	bmp = BitmapFactory.decodeStream(cr.openInputStream(uri));  
-                imageView.setImageBitmap(bmp);
-                imgpath = getRealFilePath(getApplicationContext(), uri);
-            } catch (FileNotFoundException e) {  
-                	//Log.e("Exception", e.getMessage(),e);  
-            }  
+	    if (resultCode == RESULT_OK && null != data) {
+	    	if(requestCode == 1)
+	    	{
+		    	Uri uri = data.getData();
+		    	ContentResolver cr = this.getContentResolver();  
+	            try {  
+	            	bmp = BitmapFactory.decodeStream(cr.openInputStream(uri));  
+	            	mZoomView.setImageBitmap(bmp);
+	                imgpath = getRealFilePath(getApplicationContext(), uri);
+	            } catch (FileNotFoundException e) {  
+	                	//Log.e("Exception", e.getMessage(),e);  
+	            }  
+	    	}
+	    	else if(requestCode == 2)
+	    	{
+	    	
+	        }  
 	    }
-   }
+   	}
+
    
    /**
     * Try to return the absolute file path from the given Uri
@@ -172,6 +266,7 @@ public class MainActivity extends Activity {
        @Override  
        protected String doInBackground(String... params) {
     	   try {  
+    		    String resultImgDirPath = path +"/ai/tmp/";
     		   	String logpath = path+"/ai/ai_log.log";
 				String svmpath = path+"/ai/svm.xml";
 				String annpath = path+"/ai/ann.xml";
@@ -181,10 +276,12 @@ public class MainActivity extends Activity {
 			    Thread.sleep(100);
 			    String result = null;
 			    
-			    byte[] resultByte =CarPlateDetection.ImageProc(logpath, imagepath, svmpath, annpath);
+			    byte[] resultByte =CarPlateDetection.ImageProc(path, logpath, imagepath, svmpath, annpath);
 			    System.out.println(result);
 			    if(resultByte != null)
 			    {
+			    	bmp = BitmapFactory.decodeFile(resultImgDirPath+"result.jpg");
+	                SendMsgRefresh(3);
 			    	result = new String(resultByte,"UTF-8");				   
    	 		   		SendMsgText(result,1);
    	 		   		SendMsgText(result,2);
@@ -195,7 +292,7 @@ public class MainActivity extends Activity {
 			    }
           } 
     	  catch (Exception e) {  
-       	   SendMsgText("entering the detect error",2);
+    		  SendMsgText("entering the detect error",2);
           }
     	   return null;
        }  
@@ -207,13 +304,15 @@ public class MainActivity extends Activity {
            switch(msg.what)  
            {  
 	            case 1: 
-	            	//Toast.makeText(getApplicationContext(), (String)msg.obj, Toast.LENGTH_SHORT).show();
 	            	m_text.setText((String)msg.obj);
 	                break; 
 	            case 2: 
 	            	Toast.makeText(getApplicationContext(), (String)msg.obj, Toast.LENGTH_SHORT).show();
 	                break;
-	            default:  
+	            case 3:
+	            	mZoomView.setImageBitmap(bmp);
+	            	break;
+	            default: 
 	                break;            
            }    
            super.handleMessage(msg);  
@@ -228,12 +327,57 @@ public class MainActivity extends Activity {
    		mHandler.sendMessage(message);
    }
    
+   public void SendMsgRefresh(int id)
+   {
+   		Message message=new Message(); 
+   		message.what=id; 
+   		message.obj = null;
+   		mHandler.sendMessage(message);
+   }
+   
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		  //通过OpenCV引擎服务加载并初始化OpenCV类库，所谓OpenCV引擎服务即是  
-       //OpenCV_2.4.3.2_Manager_2.4_*.apk程序包，存在于OpenCV安装包的apk目录中  
-       OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this, mLoaderCallback);  
+		//通过OpenCV引擎服务加载并初始化OpenCV类库，所谓OpenCV引擎服务即是  
+		//OpenCV_2.4.3.2_Manager_2.4_*.apk程序包，存在于OpenCV安装包的apk目录中  
+		OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);  
 	}
+	
+  	@Override
+  	public boolean onOptionsItemSelected(MenuItem item) {
+  		File root;
+	    Uri uri;
+	    Intent intent;
+	  	switch (item.getItemId()) {
+	
+	  		case R.id.action_settings:
+	  			//intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);  
+                //startActivityForResult(intent, 2); 
+	  			break;
+	  		case R.id.action_view_image:
+	  			root = new File(Environment.getExternalStorageDirectory().getPath()
+	  					+ "/ai/tmp/result.jpg");
+			    uri = Uri.fromFile(root);
+			    intent = new Intent();
+			    intent.setAction(android.content.Intent.ACTION_VIEW);
+			    intent.setDataAndType(uri , "image/*"); 
+			    startActivity(intent);
+	  			break;
+	  		case R.id.action_about:
+	  			Toast.makeText(getApplicationContext(),"daiyinger", Toast.LENGTH_SHORT).show();
+	  			break;
+	  		default:
+	  			break;
+	  	}
+	  	return super.onOptionsItemSelected(item);
+  	}	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+	
 }

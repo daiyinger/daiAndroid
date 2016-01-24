@@ -17,7 +17,7 @@ PlateJudge* PlateJudge::instance() {
 PlateJudge::PlateJudge() 
 { 
 	LOGD("PlateJudge init");
-	svm_ = ml::SVM::load<ml::SVM>(kDefaultSvmPath);
+	svm_ = ml::SVM::load<ml::SVM>(path.kDefaultSvmPath);
 }
 
 //! 对单幅图像进行SVM判断

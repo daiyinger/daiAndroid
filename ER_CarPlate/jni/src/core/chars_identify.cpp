@@ -14,9 +14,9 @@ CharsIdentify* CharsIdentify::instance() {
 }
 
 CharsIdentify::CharsIdentify() {
-  ann_ = ml::ANN_MLP::load<ml::ANN_MLP>(kDefaultAnnPath);
+  ann_ = ml::ANN_MLP::load<ml::ANN_MLP>(path.kDefaultAnnPath);
   kv_ = std::shared_ptr <Kv> (new Kv);
-  kv_->load("/sdcard/ai/etc/province_mapping");
+  kv_->load(path.defaultSdcardPath+"/ai/etc/province_mapping");
 }
 
 std::pair<std::string, std::string> CharsIdentify::identify(cv::Mat input) {

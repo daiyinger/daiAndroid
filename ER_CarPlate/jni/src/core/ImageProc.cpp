@@ -4,14 +4,20 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include "unistd.h"
-//#include "config.h"
+#include "easypr/config.h"
+
+resourcePath path;
+
 using namespace easypr;
 
+#define __FILE_DEBUG__  
+#ifdef __FILE_DEBUG__  
+#define FILE_DEBUG(x,format,...) do{if(x){fprintf(x,format,##__VA_ARGS__);}}while(0)  
+#else  
+#define FILE_DEBUG(x,format,...)  
+#endif  
 
-char* kDefaultSvmPath; 
-char* kDefaultAnnPath;
-
-using std::string;  
+ 
 using std::vector;
 
 char* jstring2str(JNIEnv* env, jstring jstr) {
@@ -34,35 +40,36 @@ char* jstring2str(JNIEnv* env, jstring jstr) {
 
 
 JNIEXPORT jbyteArray JNICALL Java_com_daiyinger_carplate_CarPlateDetection_ImageProc
-  (JNIEnv *env, jclass obj, jstring logpath, jstring imgpath, jstring svmpath,
+  (JNIEnv *env, jclass obj, jstring sdpath, jstring logpath, jstring imgpath, jstring svmpath,
 		jstring annpath){
 	CPlateRecognize pr;
-	FILE *fp = NULL;
+	FILE *fp_log = NULL;
 	int i;
 	char* log = jstring2str(env,logpath);
 	char* img = jstring2str(env,imgpath);
 	char* svm = jstring2str(env,svmpath);
 	char* ann = jstring2str(env,annpath);
+	char* psdpath = jstring2str(env,sdpath);
+
+	path.defaultSdcardPath = psdpath;
+	path.defaultImgPath = path.defaultSdcardPath+"/ai/tmp/";
 	
-	fp = fopen(log,"a+");	//"/sdcard/ai/ai_log.txt","w+");
-	LOGD("fp %x\r\n",(unsigned int)fp);
-	fprintf(fp,"\r\n============= start ===========\r\n");
+	fp_log = fopen(log,"a+");	//打开日志文件
+	FILE_DEBUG(fp_log,"\r\n============= start ===========\r\n");
 	
-	LOGD("enter 0");
 	LOGD("%s\n%s\n%s",img,svm,ann);
-	fprintf(fp,"%s\r\n%s\r\n%s\r\n",img,svm,ann);
+	FILE_DEBUG(fp_log,"%s\r\n%s\r\n%s\r\n",img,svm,ann);
 	
-	LOGD("enter 16");
 	vector < string > plateVec;
-	LOGD("enter 2");
-	//int count = pr.plateRecognize(src, plateVec);
 	try
 	{
+		//进行车牌识别
 		plateVec = easypr::api::plate_recognize(img, svm, ann);
 	}
 	catch(...)
 	{
-		
+		LOGD("error occured!");
+		FILE_DEBUG(fp_log,"error occured!\r\n");
 	}
 	string str = "0";
 	LOGD("enter 3");
@@ -72,21 +79,21 @@ JNIEXPORT jbyteArray JNICALL Java_com_daiyinger_carplate_CarPlateDetection_Image
 		str = plateVec[0];
 		for(i = 0; i< plateVec.size(); i++)
 		{
-			fprintf(fp, "%s\r\n", plateVec[i].c_str());
+			FILE_DEBUG(fp_log, "%s\r\n", plateVec[i].c_str());
 		}
 	}
 	else
 	{
-		fprintf(fp,"鏈兘璇嗗埆!\r\n");	//识别失败 UTF-8编码
-		fclose(fp);
+		FILE_DEBUG(fp_log,"鏈兘璇嗗埆!\r\n");	//识别失败 UTF-8编码
+		fclose(fp_log);
 		return NULL;
 	}
-	LOGD("enter 4");
+	LOGD("get result");
 	char *result = new char[str.length() + 1];
 	strcpy(result, str.c_str());
 	jbyte *by = (jbyte*) result;
 	jbyteArray jarray = env->NewByteArray(strlen(result));
 	env->SetByteArrayRegion(jarray, 0, strlen(result), by);
-	fclose(fp);
+	fclose(fp_log);
 	return jarray;
 }

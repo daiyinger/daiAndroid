@@ -48,19 +48,21 @@ containing a value of this type.
     }
     public static final class drawable {
         public static final int ai=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int plate_locate=0x7f020002;
-        public static final int test=0x7f020003;
-        public static final int test2=0x7f020004;
+        public static final int aia=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int plate_locate=0x7f020003;
     }
     public static final class id {
-        public static final int action_settings=0x7f040007;
+        public static final int action_about=0x7f04000a;
+        public static final int action_settings=0x7f040008;
+        public static final int action_view_image=0x7f040009;
         public static final int any=0x7f040000;
         public static final int back=0x7f040001;
-        public static final int btn_pick=0x7f040004;
-        public static final int btn_plate=0x7f040005;
+        public static final int btn_pick=0x7f040006;
+        public static final int btn_plate=0x7f040007;
+        public static final int buttons=0x7f040005;
         public static final int front=0x7f040002;
-        public static final int image_view=0x7f040006;
+        public static final int imageview=0x7f040004;
         public static final int myshow=0x7f040003;
     }
     public static final class layout {
@@ -70,11 +72,16 @@ containing a value of this type.
         public static final int main=0x7f080000;
     }
     public static final class string {
+        public static final int Pick=0x7f060006;
+        public static final int action_about=0x7f060002;
         public static final int action_settings=0x7f060001;
+        public static final int action_view_file=0x7f060003;
+        public static final int action_view_image=0x7f060004;
         public static final int app_name=0x7f060000;
-        public static final int hello_world=0x7f060002;
-        public static final int str_proc=0x7f060003;
-        public static final int wait_detect=0x7f060004;
+        public static final int hello_world=0x7f060005;
+        public static final int planedetect=0x7f060007;
+        public static final int str_proc=0x7f060008;
+        public static final int wait_detect=0x7f060009;
     }
     public static final class style {
         /** 
