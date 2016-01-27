@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.apache.http.client.utils.URIUtils;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
@@ -25,6 +26,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
+import android.provider.MediaStore.Images;
 import android.provider.MediaStore.Images.ImageColumns;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,6 +51,7 @@ public class MainActivity extends Activity {
 	private Button btnPic = null;
 	private TextView m_text = null;
 	private String path = null; //SDCARD 根目录
+	private Uri imgUri = null;
 	String imgpath = null;
 	boolean selected_img_flag = false;
 	@SuppressWarnings({ "deprecation" })
@@ -209,6 +213,7 @@ public class MainActivity extends Activity {
 	    	if(requestCode == 1)
 	    	{
 		    	Uri uri = data.getData();
+		    	imgUri = uri;
 		    	ContentResolver cr = this.getContentResolver();  
 	            try {  
 	            	bmp = BitmapFactory.decodeStream(cr.openInputStream(uri));  
@@ -220,7 +225,9 @@ public class MainActivity extends Activity {
 	    	}
 	    	else if(requestCode == 2)
 	    	{
-	    	
+	    		bmp = BitmapFactory.decodeFile(imgpath); 
+	    		//bmp = data.getParcelableExtra("data");
+	    		mZoomView.setImageBitmap(bmp);
 	        }  
 	    }
    	}
@@ -277,10 +284,10 @@ public class MainActivity extends Activity {
 			    String result = null;
 			    
 			    byte[] resultByte =CarPlateDetection.ImageProc(path, logpath, imagepath, svmpath, annpath);
-			    System.out.println(result);
 			    if(resultByte != null)
 			    {
-			    	bmp = BitmapFactory.decodeFile(resultImgDirPath+"result.jpg");
+				    System.out.println(result);
+			    	bmp = BitmapFactory.decodeFile(resultImgDirPath + "result.jpg");
 	                SendMsgRefresh(3);
 			    	result = new String(resultByte,"UTF-8");				   
    	 		   		SendMsgText(result,1);
@@ -344,6 +351,80 @@ public class MainActivity extends Activity {
 		OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);  
 	}
 	
+	/**
+	 * 调用系统图片编辑进行裁剪
+	 */
+	public void startPhotoCrop(Uri uri , String output_name) {
+		Intent intent = new Intent("com.android.camera.action.CROP");
+		intent.setDataAndType(uri, "image/*");
+		intent.putExtra("crop", "true");
+		intent.putExtra("scale", true);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(output_name)));
+		intent.putExtra("return-data", false);
+		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+		intent.putExtra("noFaceDetection", true); // no face detection
+		startActivityForResult(intent, 2);
+	}
+	
+	/**
+     * 跳转至系统截图界面进行截图
+     * 
+     * @param data
+     * @param size
+     */ 
+    private void startPhotoZoom(Uri data, int size) { 
+        Intent intent = new Intent("com.android.camera.action.CROP"); 
+        intent.setDataAndType(data, "image/*"); 
+        // crop为true时表示显示的view可以剪裁 
+        intent.putExtra("crop", "true"); 
+        intent.putExtra("scale", "true"); 
+        // aspectX aspectY 是宽高的比例 
+        intent.putExtra("aspectX", 1); 
+        intent.putExtra("aspectY", 1); 
+        // outputX,outputY 是剪裁图片的宽高 
+        intent.putExtra("outputX", size); 
+        intent.putExtra("outputY", size); 
+        intent.putExtra("return-data", true); 
+        startActivityForResult(intent, 2); 
+    } 
+    
+    public Uri getUriFromPath(String Path)
+    {
+    	Uri res = null;
+        if (path != null) {
+            path = Uri.decode(path);
+            ContentResolver cr = this.getContentResolver();
+            StringBuffer buff = new StringBuffer();
+            buff.append("(")
+                    .append(Images.ImageColumns.DATA)
+                    .append("=")
+                    .append("'" + path + "'")
+                    .append(")");
+            Cursor cur = cr.query(
+                    Images.Media.EXTERNAL_CONTENT_URI,
+                    new String[] { Images.ImageColumns._ID },
+                    buff.toString(), null, null);
+            int index = 0;
+            for (cur.moveToFirst(); !cur.isAfterLast(); cur
+                    .moveToNext()) {
+                index = cur.getColumnIndex(Images.ImageColumns._ID);
+                // set _id value
+                index = cur.getInt(index);
+            }
+            if (index == 0) {
+                //do nothing
+            } else {
+                Uri uri_temp = Uri
+                        .parse("content://media/external/images/media/"
+                                + index);
+                if (uri_temp != null) {
+                    res = uri_temp;
+                }
+            }
+        }
+        return res;
+    }
+	
   	@Override
   	public boolean onOptionsItemSelected(MenuItem item) {
   		File root;
@@ -352,6 +433,14 @@ public class MainActivity extends Activity {
 	  	switch (item.getItemId()) {
 	
 	  		case R.id.action_settings:
+	  			if(imgUri != null)
+	  				{
+  						imgpath = path + "/ai/tmp.jpg";
+	  					startPhotoCrop(imgUri, imgpath);//startPhotoZoom(imgUri, 200);
+	  				}
+	  			else
+	  				Toast.makeText(getApplicationContext(),"请先选择图片!", 
+	  						Toast.LENGTH_SHORT).show();
 	  			//intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);  
                 //startActivityForResult(intent, 2); 
 	  			break;

@@ -76,6 +76,29 @@ obj/local/armeabi-v7a/objs/imageproc/core/chars_segment.o: \
  jni/src/include/easypr/util/util.h \
  /cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/fstream \
  ../../sdk/native/jni/include/opencv2/core/core.hpp \
+ jni/src/include/easypr.h \
+ /cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/android/log.h \
+ jni/src/include/easypr/core/plate_recognize.h \
+ jni/src/include/easypr/core/plate_detect.h \
+ jni/src/include/easypr/core/plate_locate.h \
+ jni/src/include/easypr/core/plate.h \
+ jni/src/include/easypr/core/core_func.h \
+ jni/src/include/easypr/core/plate_judge.h \
+ jni/src/include/easypr/core/feature.h \
+ jni/src/include/easypr/core/chars_recognise.h \
+ jni/src/include/easypr/core/chars_identify.h \
+ jni/src/include/easypr/util/kv.h \
+ /cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/memory \
+ jni/src/include/easypr/train/svm_train.h \
+ jni/src/include/easypr/train/train.h jni/src/include/easypr/config.h \
+ jni/src/include/easypr/train/ann_train.h \
+ jni/src/include/easypr/preprocess/mc_data.h \
+ jni/src/include/easypr/preprocess/gdts.h \
+ jni/src/include/easypr/preprocess/deface.h \
+ jni/src/include/easypr/util/util.h \
+ jni/src/include/easypr/util/program_options.h \
+ /cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/cassert \
+ jni/src/include/easypr/api.hpp jni/src/include/easypr/config.h \
  jni/src/include/easypr/config.h
 
 jni/src/include/easypr/core/chars_segment.h:
@@ -229,5 +252,55 @@ jni/src/include/easypr/util/util.h:
 /cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/fstream:
 
 ../../sdk/native/jni/include/opencv2/core/core.hpp:
+
+jni/src/include/easypr.h:
+
+/cygdrive/d/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/android/log.h:
+
+jni/src/include/easypr/core/plate_recognize.h:
+
+jni/src/include/easypr/core/plate_detect.h:
+
+jni/src/include/easypr/core/plate_locate.h:
+
+jni/src/include/easypr/core/plate.h:
+
+jni/src/include/easypr/core/core_func.h:
+
+jni/src/include/easypr/core/plate_judge.h:
+
+jni/src/include/easypr/core/feature.h:
+
+jni/src/include/easypr/core/chars_recognise.h:
+
+jni/src/include/easypr/core/chars_identify.h:
+
+jni/src/include/easypr/util/kv.h:
+
+/cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/memory:
+
+jni/src/include/easypr/train/svm_train.h:
+
+jni/src/include/easypr/train/train.h:
+
+jni/src/include/easypr/config.h:
+
+jni/src/include/easypr/train/ann_train.h:
+
+jni/src/include/easypr/preprocess/mc_data.h:
+
+jni/src/include/easypr/preprocess/gdts.h:
+
+jni/src/include/easypr/preprocess/deface.h:
+
+jni/src/include/easypr/util/util.h:
+
+jni/src/include/easypr/util/program_options.h:
+
+/cygdrive/d/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/cassert:
+
+jni/src/include/easypr/api.hpp:
+
+jni/src/include/easypr/config.h:
 
 jni/src/include/easypr/config.h:

@@ -2,10 +2,10 @@
 <resources>
 
     <string name="app_name">CarPlate</string>
-    <string name="action_settings">Settings</string>
-    <string name="action_about">about</string>
+    <string name="action_settings">截图</string>
+    <string name="action_about">关于</string>
     <string name="action_view_file">viewFile</string>
-    <string name="action_view_image">viewImage</string>
+    <string name="action_view_image">参看图像</string>
     <string name="hello_world">Hello world!</string>
     <string name="Pick">选择图片</string>
     <string name="planedetect">车牌检测</string>
