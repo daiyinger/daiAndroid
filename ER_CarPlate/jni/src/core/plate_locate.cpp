@@ -25,9 +25,9 @@ CPlateLocate::CPlateLocate() {
   m_debug = DEFAULT_DEBUG;
 }
 
-//! ç”Ÿæ´»æ¨¡å¼ä¸å·¥ä¸šæ¨¡å¼åˆ‡æ¢
+//! Éú»îÄ£Ê½Óë¹¤ÒµÄ£Ê½ÇĞ»»
 //!
-//å¦‚æœä¸ºçœŸï¼Œåˆ™è®¾ç½®å„é¡¹å‚æ•°ä¸ºå®šä½ç”Ÿæ´»åœºæ™¯ç…§ç‰‡ï¼ˆå¦‚ç™¾åº¦å›¾ç‰‡ï¼‰çš„å‚æ•°ï¼Œå¦åˆ™æ¢å¤é»˜è®¤å€¼ã€‚
+//Èç¹ûÎªÕæ£¬ÔòÉèÖÃ¸÷Ïî²ÎÊıÎª¶¨Î»Éú»î³¡¾°ÕÕÆ¬£¨Èç°Ù¶ÈÍ¼Æ¬£©µÄ²ÎÊı£¬·ñÔò»Ö¸´Ä¬ÈÏÖµ¡£
 
 void CPlateLocate::setLifemode(bool param) {
   if (param) {
@@ -49,12 +49,12 @@ void CPlateLocate::setLifemode(bool param) {
   }
 }
 
-//! å¯¹minAreaRectè·å¾—çš„æœ€å°å¤–æ¥çŸ©å½¢ï¼Œç”¨çºµæ¨ªæ¯”è¿›è¡Œåˆ¤æ–­
+//! ¶ÔminAreaRect»ñµÃµÄ×îĞ¡Íâ½Ó¾ØĞÎ£¬ÓÃ×İºá±È½øĞĞÅĞ¶Ï
 
 bool CPlateLocate::verifySizes(RotatedRect mr) {
   float error = m_error;
   // Spain car plate size: 52x11 aspect 4,7272
-  // China car plate size: 440mm*140mmï¼Œaspect 3.142857
+  // China car plate size: 440mm*140mm£¬aspect 3.142857
 
   // Real car plate size: 136 * 32, aspect 4
   float aspect = m_aspect;
@@ -82,19 +82,19 @@ bool CPlateLocate::verifySizes(RotatedRect mr) {
     return true;
 }
 
-// !åŸºäºHSVç©ºé—´çš„é¢œè‰²æœç´¢æ–¹æ³•
+// !»ùÓÚHSV¿Õ¼äµÄÑÕÉ«ËÑË÷·½·¨
 
 int CPlateLocate::colorSearch(const Mat &src, const Color r, Mat &out,
                               vector<RotatedRect> &outRects, int index) {
   Mat match_grey;
 
-  // widthå€¼å¯¹æœ€ç»ˆç»“æœå½±å“å¾ˆå¤§ï¼Œå¯ä»¥è€ƒè™‘è¿›è¡Œå¤šæ¬¡colorSerchï¼Œæ¯æ¬¡ä¸åŒçš„å€¼
-  // å¦ä¸€ç§è§£å†³æ–¹æ¡ˆå°±æ˜¯åœ¨ç»“æœè¾“å‡ºåˆ°SVMä¹‹å‰ï¼Œè¿›è¡Œçº¿ä¸è§’çš„å†çº æ­£
+  // widthÖµ¶Ô×îÖÕ½á¹ûÓ°ÏìºÜ´ó£¬¿ÉÒÔ¿¼ÂÇ½øĞĞ¶à´ÎcolorSerch£¬Ã¿´Î²»Í¬µÄÖµ
+  // ÁíÒ»ÖÖ½â¾ö·½°¸¾ÍÊÇÔÚ½á¹ûÊä³öµ½SVMÖ®Ç°£¬½øĞĞÏßÓë½ÇµÄÔÙ¾ÀÕı
 
   const int color_morph_width = 10;
   const int color_morph_height = 2;
 
-  // è¿›è¡Œé¢œè‰²æŸ¥æ‰¾
+  // ½øĞĞÑÕÉ«²éÕÒ
 
   colorMatch(src, match_grey, r, false);
   //LOGD("enter colorMatch end 0");
@@ -116,12 +116,12 @@ int CPlateLocate::colorSearch(const Mat &src, const Color r, Mat &out,
 
   src_threshold.copyTo(out);
 
-  // æŸ¥æ‰¾è½®å»“
+  // ²éÕÒÂÖÀª
 
   vector<vector<Point>> contours;
 
-  // æ³¨æ„ï¼ŒfindContoursä¼šæ”¹å˜src_threshold
-  // å› æ­¤è¦è¾“å‡ºsrc_thresholdå¿…é¡»åœ¨è¿™ä¹‹å‰ä½¿ç”¨copyToæ–¹æ³•
+  // ×¢Òâ£¬findContours»á¸Ä±äsrc_threshold
+  // Òò´ËÒªÊä³ösrc_threshold±ØĞëÔÚÕâÖ®Ç°Ê¹ÓÃcopyTo·½·¨
 
   findContours(src_threshold,
                contours,               // a vector of contours
@@ -132,7 +132,7 @@ int CPlateLocate::colorSearch(const Mat &src, const Color r, Mat &out,
   while (itc != contours.end()) {
     RotatedRect mr = minAreaRect(Mat(*itc));
 
-    // éœ€è¦è¿›è¡Œå¤§å°å°ºå¯¸åˆ¤æ–­
+    // ĞèÒª½øĞĞ´óĞ¡³ß´çÅĞ¶Ï
 
     if (!verifySizes(mr))
       itc = contours.erase(itc);
@@ -145,14 +145,14 @@ int CPlateLocate::colorSearch(const Mat &src, const Color r, Mat &out,
   return 0;
 }
 
-//! Sobelç¬¬ä¸€æ¬¡æœç´¢
-//! ä¸é™åˆ¶å¤§å°å’Œå½¢çŠ¶ï¼Œè·å–çš„BoundRectè¿›å…¥ä¸‹ä¸€æ­¥
+//! SobelµÚÒ»´ÎËÑË÷
+//! ²»ÏŞÖÆ´óĞ¡ºÍĞÎ×´£¬»ñÈ¡µÄBoundRect½øÈëÏÂÒ»²½
 
 int CPlateLocate::sobelFrtSearch(const Mat &src,
                                  vector<Rect_<float>> &outRects) {
   Mat src_threshold;
 
-  // sobleæ“ä½œï¼Œå¾—åˆ°äºŒå€¼å›¾åƒ
+  // soble²Ù×÷£¬µÃµ½¶şÖµÍ¼Ïñ
 
   sobelOper(src, src_threshold, m_GaussianBlurSize, m_MorphSizeWidth,
             m_MorphSizeHeight);
@@ -170,7 +170,7 @@ int CPlateLocate::sobelFrtSearch(const Mat &src,
   while (itc != contours.end()) {
     RotatedRect mr = minAreaRect(Mat(*itc));
 
-    // éœ€è¦è¿›è¡Œå¤§å°å°ºå¯¸åˆ¤æ–­
+    // ĞèÒª½øĞĞ´óĞ¡³ß´çÅĞ¶Ï
 
     if (verifySizes(mr)) {
       first_rects.push_back(mr);
@@ -194,19 +194,19 @@ int CPlateLocate::sobelFrtSearch(const Mat &src,
   return 0;
 }
 
-//! Sobelç¬¬äºŒæ¬¡æœç´¢,å¯¹æ–­è£‚çš„éƒ¨åˆ†è¿›è¡Œå†æ¬¡çš„å¤„ç†
-//! å¯¹å¤§å°å’Œå½¢çŠ¶åšé™åˆ¶ï¼Œç”Ÿæˆå‚è€ƒåæ ‡
+//! SobelµÚ¶ş´ÎËÑË÷,¶Ô¶ÏÁÑµÄ²¿·Ö½øĞĞÔÙ´ÎµÄ´¦Àí
+//! ¶Ô´óĞ¡ºÍĞÎ×´×öÏŞÖÆ£¬Éú³É²Î¿¼×ø±ê
 
 int CPlateLocate::sobelSecSearchPart(Mat &bound, Point2f refpoint,
                                      vector<RotatedRect> &outRects) {
   Mat bound_threshold;
 
   ////!
-  ///ç¬¬äºŒæ¬¡å‚æ•°æ¯”ä¸€æ¬¡ç²¾ç»†ï¼Œä½†é’ˆå¯¹çš„æ˜¯å¾—åˆ°çš„å¤–æ¥çŸ©é˜µä¹‹åçš„å›¾åƒï¼Œå†sobelå¾—åˆ°äºŒå€¼å›¾åƒ
+  ///µÚ¶ş´Î²ÎÊı±ÈÒ»´Î¾«Ï¸£¬µ«Õë¶ÔµÄÊÇµÃµ½µÄÍâ½Ó¾ØÕóÖ®ºóµÄÍ¼Ïñ£¬ÔÙsobelµÃµ½¶şÖµÍ¼Ïñ
 
   sobelOperT(bound, bound_threshold, 3, 6, 2);
 
-  ////äºŒå€¼åŒ–å»æ‰ä¸¤è¾¹çš„è¾¹ç•Œ
+  ////¶şÖµ»¯È¥µôÁ½±ßµÄ±ß½ç
 
   // Mat mat_gray;
   // cvtColor(bound,mat_gray,CV_BGR2GRAY);
@@ -227,7 +227,7 @@ int CPlateLocate::sobelSecSearchPart(Mat &bound, Point2f refpoint,
   int posLeft = 0, posRight = 0;
   if (bFindLeftRightBound(tempBoundThread, posLeft, posRight)) {
 
-    //æ‰¾åˆ°ä¸¤ä¸ªè¾¹ç•Œåè¿›è¡Œè¿æ¥ä¿®è¡¥å¤„ç†
+    //ÕÒµ½Á½¸ö±ß½çºó½øĞĞÁ¬½ÓĞŞ²¹´¦Àí
 
     if (posRight != 0 && posLeft != 0 && posLeft < posRight) {
       int posY = int(bound_threshold.rows * 0.5);
@@ -239,7 +239,7 @@ int CPlateLocate::sobelSecSearchPart(Mat &bound, Point2f refpoint,
 
     utils::imwrite(path.defaultImgPath + "repaireimg2.jpg", bound_threshold);
 
-    //ä¸¤è¾¹çš„åŒºåŸŸä¸è¦
+    //Á½±ßµÄÇøÓò²»Òª
 
     for (int i = 0; i < bound_threshold.rows; i++) {
       bound_threshold.data[i * bound_threshold.cols + posLeft] = 0;
@@ -278,15 +278,15 @@ int CPlateLocate::sobelSecSearchPart(Mat &bound, Point2f refpoint,
   return 0;
 }
 
-//! Sobelç¬¬äºŒæ¬¡æœç´¢
-//! å¯¹å¤§å°å’Œå½¢çŠ¶åšé™åˆ¶ï¼Œç”Ÿæˆå‚è€ƒåæ ‡
+//! SobelµÚ¶ş´ÎËÑË÷
+//! ¶Ô´óĞ¡ºÍĞÎ×´×öÏŞÖÆ£¬Éú³É²Î¿¼×ø±ê
 
 int CPlateLocate::sobelSecSearch(Mat &bound, Point2f refpoint,
                                  vector<RotatedRect> &outRects) {
   Mat bound_threshold;
 
   //!
-  //ç¬¬äºŒæ¬¡å‚æ•°æ¯”ä¸€æ¬¡ç²¾ç»†ï¼Œä½†é’ˆå¯¹çš„æ˜¯å¾—åˆ°çš„å¤–æ¥çŸ©é˜µä¹‹åçš„å›¾åƒï¼Œå†sobelå¾—åˆ°äºŒå€¼å›¾åƒ
+  //µÚ¶ş´Î²ÎÊı±ÈÒ»´Î¾«Ï¸£¬µ«Õë¶ÔµÄÊÇµÃµ½µÄÍâ½Ó¾ØÕóÖ®ºóµÄÍ¼Ïñ£¬ÔÙsobelµÃµ½¶şÖµÍ¼Ïñ
 
   sobelOper(bound, bound_threshold, 3, 10, 3);
 
@@ -322,8 +322,8 @@ int CPlateLocate::sobelSecSearch(Mat &bound, Point2f refpoint,
   return 0;
 }
 
-//! Sobelè¿ç®—//å¯¹å›¾åƒåˆ†å‰²ï¼Œè…èš€å’Œè†¨èƒ€çš„æ“ä½œ
-//! è¾“å…¥å½©è‰²å›¾åƒï¼Œè¾“å‡ºäºŒå€¼åŒ–å›¾åƒ
+//! SobelÔËËã//¶ÔÍ¼Ïñ·Ö¸î£¬¸¯Ê´ºÍÅòÕÍµÄ²Ù×÷
+//! ÊäÈë²ÊÉ«Í¼Ïñ£¬Êä³ö¶şÖµ»¯Í¼Ïñ
 
 int CPlateLocate::sobelOper(const Mat &in, Mat &out, int blurSize, int morphW,
                             int morphH) {
@@ -344,27 +344,27 @@ int CPlateLocate::sobelOper(const Mat &in, Mat &out, int blurSize, int morphW,
   Mat grad_x, grad_y;
   Mat abs_grad_x, abs_grad_y;
 
-  // å¯¹X  soble
+  // ¶ÔX  soble
 
   Sobel(mat_gray, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT);
   convertScaleAbs(grad_x, abs_grad_x);
 
-  // å¯¹Y  soble
+  // ¶ÔY  soble
   // Sobel(mat_gray, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
   // convertScaleAbs(grad_y, abs_grad_y);
-  // åœ¨ä¸¤ä¸ªæƒå€¼ç»„åˆ
-  // å› ä¸ºYæ–¹å‘çš„æƒé‡æ˜¯0ï¼Œå› æ­¤åœ¨æ­¤å°±ä¸å†è®¡ç®—Yæ–¹å‘çš„sobeläº†
+  // ÔÚÁ½¸öÈ¨Öµ×éºÏ
+  // ÒòÎªY·½ÏòµÄÈ¨ÖØÊÇ0£¬Òò´ËÔÚ´Ë¾Í²»ÔÙ¼ÆËãY·½ÏòµÄsobelÁË
 
   Mat grad;
   addWeighted(abs_grad_x, SOBEL_X_WEIGHT, 0, 0, 0, grad);
 
-  // åˆ†å‰²
+  // ·Ö¸î
 
   Mat mat_threshold;
   double otsu_thresh_val =
       threshold(grad, mat_threshold, 0, 255, CV_THRESH_OTSU + CV_THRESH_BINARY);
 
-  // è…èš€å’Œè†¨èƒ€
+  // ¸¯Ê´ºÍÅòÕÍ
 
   Mat element = getStructuringElement(MORPH_RECT, Size(morphW, morphH));
   morphologyEx(mat_threshold, mat_threshold, MORPH_CLOSE, element);
@@ -383,7 +383,7 @@ void DeleteNotArea(Mat &inmat) {
 
   Mat tmpMat = inmat(Rect_<double>(w * 0.15, h * 0.1, w * 0.7, h * 0.7));
 
-  //åˆ¤æ–­è½¦ç‰Œé¢œè‰²ä»¥æ­¤ç¡®è®¤thresholdæ–¹æ³•
+  //ÅĞ¶Ï³µÅÆÑÕÉ«ÒÔ´ËÈ·ÈÏthreshold·½·¨
 
   Color plateType = getPlateType(tmpMat, true);
   Mat img_threshold;
@@ -424,7 +424,7 @@ void DeleteNotArea(Mat &inmat) {
   }
 }
 
-//! æŠ—æ‰­æ–œå¤„ç†
+//! ¿¹Å¤Ğ±´¦Àí
 
 int CPlateLocate::deskew(const Mat &src, const Mat &src_b,
                          vector<RotatedRect> &inRects,
@@ -469,7 +469,7 @@ int CPlateLocate::deskew(const Mat &src, const Mat &src_b,
         deskew_mat = bound_mat;
       } else {
 
-        // è§’åº¦åœ¨5åˆ°60åº¦ä¹‹é—´çš„ï¼Œé¦–å…ˆéœ€è¦æ—‹è½¬ rotation
+        // ½Ç¶ÈÔÚ5µ½60¶ÈÖ®¼äµÄ£¬Ê×ÏÈĞèÒªĞı×ª rotation
 
         Mat rotated_mat;
         Mat rotated_mat_b;
@@ -482,7 +482,7 @@ int CPlateLocate::deskew(const Mat &src, const Mat &src_b,
                       roi_angle))
           continue;
 
-        // å¦‚æœå›¾ç‰‡åæ–œï¼Œè¿˜éœ€è¦è§†è§’è½¬æ¢ affine
+        // Èç¹ûÍ¼Æ¬Æ«Ğ±£¬»¹ĞèÒªÊÓ½Ç×ª»» affine
 
         double roi_slope = 0;
         // imshow("1roated_mat",rotated_mat);
@@ -496,18 +496,18 @@ int CPlateLocate::deskew(const Mat &src, const Mat &src_b,
       Mat plate_mat;
       plate_mat.create(HEIGHT, WIDTH, TYPE);
 
-      // haitungagaæ·»åŠ ï¼Œåˆ é™¤éåŒºåŸŸï¼Œè¿™ä¸ªå‡½æ•°å½±å“äº†25%çš„å®Œæ•´å®šä½ç‡
+      // haitungagaÌí¼Ó£¬É¾³ı·ÇÇøÓò£¬Õâ¸öº¯ÊıÓ°ÏìÁË25%µÄÍêÕû¶¨Î»ÂÊ
 
       DeleteNotArea(deskew_mat);
 
-      // è¿™é‡Œå¯¹deskew_matè¿›è¡Œäº†ä¸€ä¸ªç­›é€‰
-      // ä½¿ç”¨äº†ç»éªŒæ•°å€¼ï¼š2.3å’Œ6
+      // ÕâÀï¶Ôdeskew_mat½øĞĞÁËÒ»¸öÉ¸Ñ¡
+      // Ê¹ÓÃÁË¾­ÑéÊıÖµ£º2.3ºÍ6
 
 
       if (deskew_mat.cols * 1.0 / deskew_mat.rows > 2.3 &&
           deskew_mat.cols * 1.0 / deskew_mat.rows < 6) {
 
-        //å¦‚æœå›¾åƒå¤§äºæˆ‘ä»¬æ‰€è¦æ±‚çš„å›¾åƒï¼Œå¯¹å›¾åƒè¿›è¡Œä¸€ä¸ªå¤§å°å˜æ›´
+        //Èç¹ûÍ¼Ïñ´óÓÚÎÒÃÇËùÒªÇóµÄÍ¼Ïñ£¬¶ÔÍ¼Ïñ½øĞĞÒ»¸ö´óĞ¡±ä¸ü
 
         if (deskew_mat.cols >= WIDTH || deskew_mat.rows >= HEIGHT)
           resize(deskew_mat, plate_mat, plate_mat.size(), 0, 0, INTER_AREA);
@@ -525,7 +525,7 @@ int CPlateLocate::deskew(const Mat &src, const Mat &src_b,
   return 0;
 }
 
-//! æ—‹è½¬æ“ä½œ
+//! Ğı×ª²Ù×÷
 
 bool CPlateLocate::rotation(Mat &in, Mat &out, const Size rect_size,
                             const Point2f center, const double angle) {
@@ -573,8 +573,8 @@ bool CPlateLocate::rotation(Mat &in, Mat &out, const Size rect_size,
   return true;
 }
 
-//! æ˜¯å¦åæ–œ
-//! è¾“å…¥äºŒå€¼åŒ–å›¾åƒï¼Œè¾“å‡ºåˆ¤æ–­ç»“æœ
+//! ÊÇ·ñÆ«Ğ±
+//! ÊäÈë¶şÖµ»¯Í¼Ïñ£¬Êä³öÅĞ¶Ï½á¹û
 
 bool CPlateLocate::isdeflection(const Mat &in, const double angle,
                                 double &slope) { /*imshow("in",in);
@@ -608,7 +608,7 @@ bool CPlateLocate::isdeflection(const Mat &in, const double angle,
   // cout << "len[1]:" << len[1] << endl;
   // cout << "len[2]:" << len[2] << endl;
 
-  // len[0]/len[1]/len[2]è¿™ä¸‰ä¸ªåº”è¯¥æ˜¯å–è½¦ç‰Œè¾¹çº¿çš„å€¼ï¼Œæ¥è®¡ç®—è½¦ç‰Œè¾¹çº¿çš„æ–œç‡
+  // len[0]/len[1]/len[2]ÕâÈı¸öÓ¦¸ÃÊÇÈ¡³µÅÆ±ßÏßµÄÖµ£¬À´¼ÆËã³µÅÆ±ßÏßµÄĞ±ÂÊ
 
   double maxlen = max(len[2], len[0]);
   double minlen = min(len[2], len[0]);
@@ -616,15 +616,15 @@ bool CPlateLocate::isdeflection(const Mat &in, const double angle,
 
   double PI = 3.14159265;
 
-  // angleæ˜¯æ ¹æ®æ°´å¹³é‚£æ ¹ç›´çº¿çš„æ–œç‡è½¬æ¢è¿‡æ¥çš„è§’åº¦
+  // angleÊÇ¸ù¾İË®Æ½ÄÇ¸ùÖ±ÏßµÄĞ±ÂÊ×ª»»¹ıÀ´µÄ½Ç¶È
 
   double g = tan(angle * PI / 180.0);
 
   if (maxlen - len[1] > nCols / 32 || len[1] - minlen > nCols / 32) {
 
-    // å¦‚æœæ–œç‡ä¸ºæ­£ï¼Œåˆ™åº•éƒ¨åœ¨ä¸‹ï¼Œåä¹‹åœ¨ä¸Š
+    // Èç¹ûĞ±ÂÊÎªÕı£¬Ôòµ×²¿ÔÚÏÂ£¬·´Ö®ÔÚÉÏ
 
-    //æ±‚ç›´çº¿çš„æ–œç‡
+    //ÇóÖ±ÏßµÄĞ±ÂÊ
 
     double slope_can_1 =
         double(len[2] - len[0]) / double(comp_index[1]);
@@ -647,13 +647,13 @@ bool CPlateLocate::isdeflection(const Mat &in, const double angle,
   return false;
 }
 
-//! æ‰­å˜æ“ä½œ//é€šè¿‡opencvçš„ä»¿å°„å˜æ¢
+//! Å¤±ä²Ù×÷//Í¨¹ıopencvµÄ·ÂÉä±ä»»
 
 void CPlateLocate::affine(const Mat &in, Mat &out, const double slope) {
   // imshow("in", in);
   // waitKey(0);
 
-  //è¿™é‡Œçš„slopeæ˜¯é€šè¿‡åˆ¤æ–­æ˜¯å¦å€¾æ–œå¾—å‡ºæ¥çš„å€¾æ–œç‡
+  //ÕâÀïµÄslopeÊÇÍ¨¹ıÅĞ¶ÏÊÇ·ñÇãĞ±µÃ³öÀ´µÄÇãĞ±ÂÊ
 
   Point2f dstTri[3];
   Point2f plTri[3];
@@ -664,7 +664,7 @@ void CPlateLocate::affine(const Mat &in, Mat &out, const double slope) {
 
   if (slope > 0) {
 
-    //å³åå‹ï¼Œæ–°èµ·ç‚¹åæ ‡ç³»åœ¨xiff/2ä½ç½®
+    //ÓÒÆ«ĞÍ£¬ĞÂÆğµã×ø±êÏµÔÚxiff/2Î»ÖÃ
 
     plTri[0] = Point2f(0, 0);
     plTri[1] = Point2f(width - xiff - 1, 0);
@@ -675,7 +675,7 @@ void CPlateLocate::affine(const Mat &in, Mat &out, const double slope) {
     dstTri[2] = Point2f(xiff / 2, height - 1);
   } else {
 
-    //å·¦åå‹ï¼Œæ–°èµ·ç‚¹åæ ‡ç³»åœ¨ -xiff/2ä½ç½®
+    //×óÆ«ĞÍ£¬ĞÂÆğµã×ø±êÏµÔÚ -xiff/2Î»ÖÃ
 
     plTri[0] = Point2f(0 + xiff, 0);
     plTri[1] = Point2f(width - 1, 0);
@@ -693,7 +693,7 @@ void CPlateLocate::affine(const Mat &in, Mat &out, const double slope) {
 
   if (in.rows > HEIGHT || in.cols > WIDTH)
 
-    //ä»¿å°„å˜æ¢
+    //·ÂÉä±ä»»
 
     warpAffine(in, affine_mat, warp_mat, affine_mat.size(),
                CV_INTER_AREA);
@@ -703,19 +703,19 @@ void CPlateLocate::affine(const Mat &in, Mat &out, const double slope) {
   out = affine_mat;
 }
 
-//! è®¡ç®—ä¸€ä¸ªå®‰å…¨çš„Rect
-//! å¦‚æœä¸å­˜åœ¨ï¼Œè¿”å›false
+//! ¼ÆËãÒ»¸ö°²È«µÄRect
+//! Èç¹û²»´æÔÚ£¬·µ»Øfalse
 
 bool CPlateLocate::calcSafeRect(const RotatedRect &roi_rect, const Mat &src,
                                 Rect_<float> &safeBoundRect) {
   Rect_<float> boudRect = roi_rect.boundingRect();
 
-  // boudRectçš„å·¦ä¸Šçš„xå’Œyæœ‰å¯èƒ½å°äº0
+  // boudRectµÄ×óÉÏµÄxºÍyÓĞ¿ÉÄÜĞ¡ÓÚ0
 
   float tl_x = boudRect.x > 0 ? boudRect.x : 0;
   float tl_y = boudRect.y > 0 ? boudRect.y : 0;
 
-  // boudRectçš„å³ä¸‹çš„xå’Œyæœ‰å¯èƒ½å¤§äºsrcçš„èŒƒå›´
+  // boudRectµÄÓÒÏÂµÄxºÍyÓĞ¿ÉÄÜ´óÓÚsrcµÄ·¶Î§
 
   float br_x = boudRect.x + boudRect.width < src.cols
                ? boudRect.x + boudRect.width - 1
@@ -729,14 +729,14 @@ bool CPlateLocate::calcSafeRect(const RotatedRect &roi_rect, const Mat &src,
 
   if (roi_width <= 0 || roi_height <= 0) return false;
 
-  // æ–°å»ºä¸€ä¸ªmatï¼Œç¡®ä¿åœ°å€ä¸è¶Šç•Œï¼Œä»¥é˜²matå®šä½roiæ—¶æŠ›å¼‚å¸¸
+  // ĞÂ½¨Ò»¸ömat£¬È·±£µØÖ·²»Ô½½ç£¬ÒÔ·Àmat¶¨Î»roiÊ±Å×Òì³£
 
   safeBoundRect = Rect_<float>(tl_x, tl_y, roi_width, roi_height);
 
   return true;
 }
 
-// !åŸºäºé¢œè‰²ä¿¡æ¯çš„è½¦ç‰Œå®šä½
+// !»ùÓÚÑÕÉ«ĞÅÏ¢µÄ³µÅÆ¶¨Î»
 
 int CPlateLocate::plateColorLocate(Mat src, vector<CPlate> &candPlates,
                                    int index) {
@@ -745,16 +745,16 @@ int CPlateLocate::plateColorLocate(Mat src, vector<CPlate> &candPlates,
   vector<CPlate> plates;
   Mat src_b;
 
-  // æŸ¥æ‰¾è“è‰²è½¦ç‰Œ
-  // æŸ¥æ‰¾é¢œè‰²åŒ¹é…è½¦ç‰Œ
+  // ²éÕÒÀ¶É«³µÅÆ
+  // ²éÕÒÑÕÉ«Æ¥Åä³µÅÆ
 
   colorSearch(src, BLUE, src_b, rects_color_blue, index);
 
-  // è¿›è¡ŒæŠ—æ‰­æ–œå¤„ç†
+  // ½øĞĞ¿¹Å¤Ğ±´¦Àí
 
   deskew(src, src_b, rects_color_blue, plates);
 
-  // æŸ¥æ‰¾é»„è‰²è½¦ç‰Œ
+  // ²éÕÒ»ÆÉ«³µÅÆ
 
   colorSearch(src, YELLOW, src_b, rects_color_yellow, index);
   deskew(src, src_b, rects_color_yellow, plates);
@@ -765,8 +765,8 @@ int CPlateLocate::plateColorLocate(Mat src, vector<CPlate> &candPlates,
   return 0;
 }
 
-//! Sobelè¿ç®—
-//! è¾“å…¥å½©è‰²å›¾åƒï¼Œè¾“å‡ºäºŒå€¼åŒ–å›¾åƒ
+//! SobelÔËËã
+//! ÊäÈë²ÊÉ«Í¼Ïñ£¬Êä³ö¶şÖµ»¯Í¼Ïñ
 
 int CPlateLocate::sobelOperT(const Mat &in, Mat &out, int blurSize, int morphW,
                              int morphH) {
@@ -794,7 +794,7 @@ int CPlateLocate::sobelOperT(const Mat &in, Mat &out, int blurSize, int morphW,
   Sobel(mat_gray, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT);
   convertScaleAbs(grad_x, abs_grad_x);
 
-  //å› ä¸ºYæ–¹å‘çš„æƒé‡æ˜¯0ï¼Œå› æ­¤åœ¨æ­¤å°±ä¸å†è®¡ç®—Yæ–¹å‘çš„sobeläº†
+  //ÒòÎªY·½ÏòµÄÈ¨ÖØÊÇ0£¬Òò´ËÔÚ´Ë¾Í²»ÔÙ¼ÆËãY·½ÏòµÄsobelÁË
 
   Mat grad;
   addWeighted(abs_grad_x, 1, 0, 0, 0, grad);
@@ -817,7 +817,7 @@ int CPlateLocate::sobelOperT(const Mat &in, Mat &out, int blurSize, int morphW,
   return 0;
 }
 
-// !åŸºäºå‚ç›´çº¿æ¡çš„è½¦ç‰Œå®šä½
+// !»ùÓÚ´¹Ö±ÏßÌõµÄ³µÅÆ¶¨Î»
 
 int CPlateLocate::plateSobelLocate(Mat src, vector<CPlate> &candPlates,
                                    int index) {
@@ -827,20 +827,20 @@ int CPlateLocate::plateSobelLocate(Mat src, vector<CPlate> &candPlates,
 
   vector<Rect_<float>> bound_rects;
 
-  // Sobelç¬¬ä¸€æ¬¡ç²—ç•¥æœç´¢
+  // SobelµÚÒ»´Î´ÖÂÔËÑË÷
 
   sobelFrtSearch(src, bound_rects);
 
   vector<Rect_<float>> bound_rects_part;
 
-  //å¯¹ä¸ç¬¦åˆè¦æ±‚çš„åŒºåŸŸè¿›è¡Œæ‰©å±•
+  //¶Ô²»·ûºÏÒªÇóµÄÇøÓò½øĞĞÀ©Õ¹
 
   for (size_t i = 0; i < bound_rects.size(); i++) {
     float fRatio = bound_rects[i].width * 1.0f / bound_rects[i].height;
     if (fRatio < 3.0 && fRatio > 1.0 && bound_rects[i].height < 120) {
       Rect_<float> itemRect = bound_rects[i];
 
-      //å®½åº¦è¿‡å°ï¼Œè¿›è¡Œæ‰©å±•
+      //¿í¶È¹ıĞ¡£¬½øĞĞÀ©Õ¹
 
       itemRect.x = itemRect.x - itemRect.height * (4 - fRatio);
       if (itemRect.x < 0) {
@@ -858,7 +858,7 @@ int CPlateLocate::plateSobelLocate(Mat src, vector<CPlate> &candPlates,
     }
   }
 
-  //å¯¹æ–­è£‚çš„éƒ¨åˆ†è¿›è¡ŒäºŒæ¬¡å¤„ç†
+  //¶Ô¶ÏÁÑµÄ²¿·Ö½øĞĞ¶ş´Î´¦Àí
 
   for (size_t i = 0; i < bound_rects_part.size(); i++) {
     Rect_<float> bound_rect = bound_rects_part[i];
@@ -875,7 +875,7 @@ int CPlateLocate::plateSobelLocate(Mat src, vector<CPlate> &candPlates,
     Rect_<float> safe_bound_rect(x, y, width, height);
     Mat bound_mat = src(safe_bound_rect);
 
-    // Sobelç¬¬äºŒæ¬¡ç²¾ç»†æœç´¢(éƒ¨åˆ†)
+    // SobelµÚ¶ş´Î¾«Ï¸ËÑË÷(²¿·Ö)
 
     sobelSecSearchPart(bound_mat, refpoint, rects_sobel);
   }
@@ -895,7 +895,7 @@ int CPlateLocate::plateSobelLocate(Mat src, vector<CPlate> &candPlates,
     Rect_<float> safe_bound_rect(x, y, width, height);
     Mat bound_mat = src(safe_bound_rect);
 
-    // Sobelç¬¬äºŒæ¬¡ç²¾ç»†æœç´¢
+    // SobelµÚ¶ş´Î¾«Ï¸ËÑË÷
 
     sobelSecSearch(bound_mat, refpoint, rects_sobel);
     // sobelSecSearchPart(bound_mat, refpoint, rects_sobel);
@@ -904,7 +904,7 @@ int CPlateLocate::plateSobelLocate(Mat src, vector<CPlate> &candPlates,
   Mat src_b;
   sobelOper(src, src_b, 3, 10, 3);
 
-  // è¿›è¡ŒæŠ—æ‰­æ–œå¤„ç†
+  // ½øĞĞ¿¹Å¤Ğ±´¦Àí
 
   deskew(src, src_b, rects_sobel, plates);
 
@@ -913,8 +913,8 @@ int CPlateLocate::plateSobelLocate(Mat src, vector<CPlate> &candPlates,
   return 0;
 }
 
-// !è½¦ç‰Œå®šä½
-// !æŠŠé¢œè‰²ä¸Sobelå®šä½çš„è½¦ç‰Œå…¨éƒ¨è¾“å‡º
+// !³µÅÆ¶¨Î»
+// !°ÑÑÕÉ«ÓëSobel¶¨Î»µÄ³µÅÆÈ«²¿Êä³ö
 
 int CPlateLocate::plateLocate(Mat src, vector<Mat> &resultVec, int index) {
   vector<CPlate> all_result_Plates;

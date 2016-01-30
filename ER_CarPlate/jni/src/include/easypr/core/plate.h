@@ -20,11 +20,11 @@ class CPlate {
  public:
   bool bColored;
 
-  //! æ„é€ å‡½æ•°
+  //! ¹¹Ôìº¯Êı
 
   CPlate();
 
-  //! è®¾ç½®ä¸è¯»å–å˜é‡
+  //! ÉèÖÃÓë¶ÁÈ¡±äÁ¿
 
   inline void setPlateMat(Mat param) { m_plateMat = param; }
   inline Mat getPlateMat() const { return m_plateMat; }
@@ -39,19 +39,19 @@ class CPlate {
   inline LocateType getPlateLocateType() const { return m_locateType; }
 
  private:
-  //! è½¦ç‰Œçš„å›¾å—
+  //! ³µÅÆµÄÍ¼¿é
 
   Mat m_plateMat;
 
-  //! è½¦ç‰Œåœ¨åŸå›¾çš„ä½ç½®
+  //! ³µÅÆÔÚÔ­Í¼µÄÎ»ÖÃ
 
   RotatedRect m_platePos;
 
-  //! è½¦ç‰Œå­—ç¬¦ä¸²
+  //! ³µÅÆ×Ö·û´®
 
   String m_plateStr;
 
-  //! è½¦ç‰Œå®šä½çš„æ–¹æ³•
+  //! ³µÅÆ¶¨Î»µÄ·½·¨
 
   LocateType m_locateType;
 };

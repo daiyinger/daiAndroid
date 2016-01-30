@@ -20,7 +20,7 @@ PlateJudge::PlateJudge()
 	svm_ = ml::SVM::load<ml::SVM>(path.kDefaultSvmPath);
 }
 
-//! å¯¹å•å¹…å›¾åƒè¿›è¡ŒSVMåˆ¤æ–­
+//! ¶Ôµ¥·ùÍ¼Ïñ½øĞĞSVMÅĞ¶Ï
 
 int PlateJudge::plateJudge(const Mat &inMat, int &result) {
   Mat features;
@@ -32,7 +32,7 @@ int PlateJudge::plateJudge(const Mat &inMat, int &result) {
   return 0;
 }
 
-//! å¯¹å¤šå¹…å›¾åƒè¿›è¡ŒSVMåˆ¤æ–­
+//! ¶Ô¶à·ùÍ¼Ïñ½øĞĞSVMÅĞ¶Ï
 
 int PlateJudge::plateJudge(const std::vector<Mat> &inVec,
                            std::vector<Mat> &resultVec) {
@@ -48,7 +48,7 @@ int PlateJudge::plateJudge(const std::vector<Mat> &inVec,
   return 0;
 }
 
-//! å¯¹å¤šå¹…è½¦ç‰Œè¿›è¡ŒSVMåˆ¤æ–­
+//! ¶Ô¶à·ù³µÅÆ½øĞĞSVMÅĞ¶Ï
 
 int PlateJudge::plateJudge(const std::vector<CPlate> &inVec,
                            std::vector<CPlate> &resultVec) {
@@ -66,7 +66,7 @@ int PlateJudge::plateJudge(const std::vector<CPlate> &inVec,
       int w = inMat.cols;
       int h = inMat.rows;
 
-      //å†å–ä¸­é—´éƒ¨åˆ†åˆ¤æ–­ä¸€æ¬¡
+      //ÔÙÈ¡ÖĞ¼ä²¿·ÖÅĞ¶ÏÒ»´Î
 
       Mat tmpmat = inMat(Rect_<double>(w * 0.05, h * 0.1, w * 0.9, h * 0.8));
       Mat tmpDes = inMat.clone();

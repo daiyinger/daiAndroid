@@ -1,22 +1,3 @@
----- imwrite Matches (21 in 8 files) ----
-Chars_segment.cpp (src\core):    utils::imwrite(path.defaultImgPath + "inputgray2.jpg", input_grey);
-Gdts.cpp (src\preprocess):    utils::imwrite(ss.str(), dst);
-Mc_data.cpp (src\preprocess):    utils::imwrite(save_to, img);
-Mc_data.cpp (src\preprocess):      utils::imwrite(save_to, plate);
-Plate_detect.cpp (src\core):  utils::imwrite(path.defaultImgPath+"results.jpg",img_window);
-Plate_locate.cpp (src\core):    utils::imwrite(path.defaultImgPath + "match_grey.jpg", match_grey);
-Plate_locate.cpp (src\core):    utils::imwrite(path.defaultImgPath + "color.jpg", src_threshold);
-Plate_locate.cpp (src\core):    utils::imwrite(path.defaultImgPath + "repaireimg2.jpg", bound_threshold);
-Plate_locate.cpp (src\core):    utils::imwrite(path.defaultImgPath + "repaireimg2.jpg", bound_threshold);
-Plate_locate.cpp (src\core):  utils::imwrite(path.defaultImgPath + "sobelSecSearch.jpg", bound_threshold);
-Plate_locate.cpp (src\core):    utils::imwrite(path.defaultImgPath + "inputgray2.jpg", img_threshold);
-Plate_locate.cpp (src\core):    utils::imwrite(path.defaultImgPath + "inputgray2.jpg", img_threshold);
-Plate_locate.cpp (src\core):  Utils::imwrite(path.defaultImgPath + "grayblure.jpg", mat_gray);
-Plate_locate.cpp (src\core):  utils::imwrite(path.defaultImgPath + "graygrad.jpg", grad);
-Plate_locate.cpp (src\core):  utils::imwrite(path.defaultImgPath + "grayBINARY.jpg", mat_threshold);
-Plate_locate.cpp (src\core):  utils::imwrite(path.defaultImgPath + "phologyEx.jpg", mat_threshold);
-Plate_recognize.cpp (src\core):    	utils::imwrite(path.defaultImgPath+"result.jpg", result);
-Util.cpp (src\util):bool Utils::imwrite(const std::string &file, const cv::Mat &image) {
-Util.cpp (src\util):  return cv::imwrite(file, image);
-Util.h (src\include\easypr\util):   * if not, create it, then call cv::imwrite.
-Util.h (src\include\easypr\util):  static bool imwrite(const std::string &file, const cv::Mat &image);
+---- CP_UTF8 Matches (2 in 1 files) ----
+Util.cpp (src\util):  int len = MultiByteToWideChar(CP_UTF8, 0, utf8, -1, NULL, 0);
+Util.cpp (src\util):  MultiByteToWideChar(CP_UTF8, 0, utf8, -1, wszGBK, len);

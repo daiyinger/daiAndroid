@@ -26,7 +26,7 @@ class CCharsRecognise {
 
   int charsRecognise(cv::Mat plate, std::string& plateLicense);
 
-  //! è·å¾—è½¦ç‰Œé¢œè‰²
+  //! »ñµÃ³µÅÆÑÕÉ«
 
   inline std::string getPlateColor(cv::Mat input) const {
     std::string color = "æœªçŸ¥";
@@ -39,7 +39,7 @@ class CCharsRecognise {
     return color;
   }
 
-  //! è®¾ç½®å˜é‡
+  //! ÉèÖÃ±äÁ¿
 
   inline void setLiuDingSize(int param) {
     m_charsSegment->setLiuDingSize(param);
@@ -61,7 +61,7 @@ class CCharsRecognise {
   }
 
  private:
-  //ï¼å­—ç¬¦åˆ†å‰²
+  //£¡×Ö·û·Ö¸î
 
   CCharsSegment* m_charsSegment;
 };
